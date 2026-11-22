@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; background-color: var(--bg-page);">
+  <!-- Header Fragment -->
+  <div th:replace="~{fragments/header :: header}"></div>
+
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem;">
+    <div class="card p-4" style="max-width: 440px; width: 100%; padding: 2.5rem 2rem; border: 1px solid var(--border); box-shadow: var(--shadow-md);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: white; margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
+          <i class="fas fa-compass" style="font-size: 1.4rem;"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">Welcome Back</h2>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Sign in to continue your placement preparation roadmap</p>
+      </div>
+
+      <!-- Error and Notification Banners -->
+      <div th:if="${param.error}" class="card p-3 mb-3" style="background-color: var(--danger-light); border-color: var(--danger-border); color: var(--danger-text); font-size: 0.85rem; display: flex; align-items: center; gap: 0.75rem;">
+        <i class="fas fa-exclamation-circle" style="font-size: 1.1rem;"></i>
+        <span>Invalid email or password. Please try again.</span>
+      </div>
+
+      <div th:if="${param.logout}" class="card p-3 mb-3" style="background-color: var(--primary-light); border-color: var(--primary-border); color: var(--primary); font-size: 0.85rem; display: flex; align-items: center; gap: 0.75rem;">
+        <i class="fas fa-info-circle" style="font-size: 1.1rem;"></i>
+        <span>You have been signed out successfully.</span>
+      </div>
+
+      <!-- Spring Security Login Form -->
+      <form action="/login" method="POST" id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">College / Personal Email</label>
+          <div class="input-with-icon">
+            <i class="far fa-envelope input-icon"></i>
+            <input type="email" id="login-email" name="email" class="form-control" placeholder="student@campus.edu" required autofocus>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+            <a href="#" onclick="window.showToast('Please contact your placement cell admin to reset your credentials.', 'info')" style="font-size: 0.75rem; color: var(--primary); font-weight: 500;">Forgot password?</a>
+          </div>
+          <div class="input-with-icon">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="login-password" name="password" class="form-control" placeholder="••••••••" required>
+            <button type="button" class="input-password-toggle" aria-label="Toggle password visibility">
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.85rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); cursor: pointer;">
+            <input type="checkbox" name="remember-me" style="accent-color: var(--primary);">
+            <span>Remember me</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" style="padding: 0.75rem; font-size: 0.95rem;">
+          <i class="fas fa-sign-in-alt me-2"></i> Sign In to Compass
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Don't have an account? <a href="/register" style="color: var(--primary); font-weight: 600;">Register here</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Fragment -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script th:src="@{/js/auth.js}"></script>
+</body>
+</html>

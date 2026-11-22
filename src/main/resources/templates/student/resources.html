@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Resource Library — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-wrapper">
+      <!-- Header Fragment -->
+      <div th:replace="~{fragments/header :: header}"></div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 class="page-title">Curated Learning Resource Library</h1>
+            <p class="page-subtitle">Handpicked documentation, tutorials, textbooks, and interactive guides aligned with hiring benchmarks</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <input type="text" id="resource-search" class="form-control" placeholder="Search resources or topics..." style="width: 250px;">
+          </div>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="tabs-wrapper mb-4">
+          <div class="tabs-nav">
+            <button type="button" class="tab-btn active" data-tab="res-all">All Resources (12)</button>
+            <button type="button" class="tab-btn" data-tab="res-dsa">DSA & Algorithms (3)</button>
+            <button type="button" class="tab-btn" data-tab="res-sys">System Design & OS (3)</button>
+            <button type="button" class="tab-btn" data-tab="res-backend">Backend & DB (3)</button>
+            <button type="button" class="tab-btn" data-tab="res-web">Frontend & Web (3)</button>
+          </div>
+
+          <!-- ALL RESOURCES TAB -->
+          <div class="tab-pane active" id="res-all">
+            <div class="grid-3" id="resources-grid">
+              <!-- Resource 1 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-purple">DSA Core</span>
+                  <span class="badge badge-yellow">Intermediate</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  NeetCode 150 Roadmap & Visualizer
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  Structured collection of standard technical interview algorithmic problems categorized by pattern (sliding window, binary search, trees, DP).
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> Self-paced</span>
+                  <a href="https://neetcode.io" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Open Resource
+                  </a>
+                </div>
+              </div>
+
+              <!-- Resource 2 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-blue">Backend</span>
+                  <span class="badge badge-green">Beginner</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  Official Spring Boot 3 & REST Guide
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  Comprehensive documentation covering dependency injection, Spring Data JPA repositories, transactions, and REST APIs.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> 8 hours</span>
+                  <a href="https://spring.io/guides" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Open Guide
+                  </a>
+                </div>
+              </div>
+
+              <!-- Resource 3 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-yellow">Databases</span>
+                  <span class="badge badge-yellow">Intermediate</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  Use The Index, Luke! — SQL Indexing
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  An engineering guide to database performance, B-tree internals, composite indexes, and index range scans in PostgreSQL.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> 4 hours</span>
+                  <a href="https://use-the-index-luke.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Open Tutorial
+                  </a>
+                </div>
+              </div>
+
+              <!-- Resource 4 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-purple">System Design</span>
+                  <span class="badge badge-red">Advanced</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  System Design Primer by Donne Martin
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  The premier open-source guide to large-scale system architectures: load balancing, caching, asynchronous message queues, and CAP theorem.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> 15 hours</span>
+                  <a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Open Repo
+                  </a>
+                </div>
+              </div>
+
+              <!-- Resource 5 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-blue">CS Fundamentals</span>
+                  <span class="badge badge-yellow">Intermediate</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  Operating Systems: Three Easy Pieces (OSTEP)
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  Free online textbook covering virtualization (CPU & memory), concurrency (threads & locks), and persistence (file systems).
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> Textbook</span>
+                  <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Read Online
+                  </a>
+                </div>
+              </div>
+
+              <!-- Resource 6 -->
+              <div class="card card-elevated p-4 resource-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge badge-green">Frontend</span>
+                  <span class="badge badge-green">Beginner</span>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+                  React Official Documentation & Interactive Tour
+                </h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                  The modern React documentation with interactive code sandboxes demonstrating hooks, effect lifecycles, and component state.
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+                  <span style="color: var(--text-muted);"><i class="far fa-clock me-1"></i> Interactive</span>
+                  <a href="https://react.dev" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                    <i class="fas fa-external-link-alt me-1"></i> Visit Docs
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Fragment -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script>
+    const search = document.getElementById('resource-search');
+    if (search) {
+      search.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        document.querySelectorAll('.resource-card').forEach(c => {
+          c.style.display = c.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+        });
+      });
+    }
+  </script>
+</body>
+</html>

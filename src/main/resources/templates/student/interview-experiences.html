@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Interview Experiences — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-wrapper">
+      <!-- Header Fragment -->
+      <div th:replace="~{fragments/header :: header}"></div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 class="page-title">Campus Interview Experiences</h1>
+            <p class="page-subtitle">Authentic, verified placement debriefs and preparation strategies from recent engineering graduates</p>
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary" onclick="window.openModal('share-exp-modal')">
+              <i class="fas fa-plus me-1"></i> Share Your Experience
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="card p-3 mb-4" style="border: 1px solid var(--border); background-color: var(--bg-surface);">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <div style="flex: 1; min-width: 220px;">
+              <input type="text" id="exp-search" class="form-control" placeholder="Search company, role, or questions asked...">
+            </div>
+            <div style="width: 180px;">
+              <select id="exp-company-filter" class="form-select">
+                <option value="">All Companies</option>
+                <option value="Google">Google</option>
+                <option value="Microsoft">Microsoft</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Atlassian">Atlassian</option>
+                <option value="Cisco">Cisco</option>
+              </select>
+            </div>
+            <div style="width: 160px;">
+              <select id="exp-diff-filter" class="form-select">
+                <option value="">All Difficulties</option>
+                <option value="Hard">Hard</option>
+                <option value="Medium">Medium</option>
+                <option value="Easy">Easy</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experiences List Container -->
+        <div id="experiences-container">
+          <!-- Experience Card 1: Google -->
+          <div class="card card-elevated p-4 mb-4 exp-card" data-company="Google" data-diff="Hard">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <strong style="color: var(--text-main); font-size: 1.15rem;">Google</strong>
+                  <span class="badge badge-purple">Software Development Engineer (Campus)</span>
+                  <span class="badge badge-gray">Batch 2024</span>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-user-check me-1"></i> Shared by Senior Student • 4 Rounds Evaluated</span>
+              </div>
+              <span class="badge badge-red">Difficulty: Hard</span>
+            </div>
+
+            <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; white-space: pre-line; background-color: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              The recruitment process was rigorous across 4 distinct rounds:
+              1. Online Assessment: 2 Medium DSA problems on dynamic programming and graph BFS.
+              2. Technical Round 1: Interval scheduling and tree traversal with deep focus on time/space tradeoffs.
+              3. Technical Round 2: Design an in-memory rate limiter with concurrency considerations.
+              4. Googleyness & Behavioral: Cultural fit, feedback handling, and teamwork.
+
+              Tip: Clean, modular code and explaining your thinking out loud are heavily evaluated.
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted);">
+              <span><i class="far fa-calendar-alt me-1"></i> Interviewed 3 months ago</span>
+              <span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle me-1"></i> Verified Placement Offer</span>
+            </div>
+          </div>
+
+          <!-- Experience Card 2: Microsoft -->
+          <div class="card card-elevated p-4 mb-4 exp-card" data-company="Microsoft" data-diff="Medium">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <strong style="color: var(--text-main); font-size: 1.15rem;">Microsoft</strong>
+                  <span class="badge badge-blue">Software Engineer Intern / FTE</span>
+                  <span class="badge badge-gray">Batch 2024</span>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-user-check me-1"></i> Shared by Student • 4 Rounds Evaluated</span>
+              </div>
+              <span class="badge badge-yellow">Difficulty: Medium</span>
+            </div>
+
+            <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; white-space: pre-line; background-color: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              Rounds included:
+              Round 1: Coding test on arrays and string manipulation.
+              Round 2: Data structures (Linked lists, binary search) and OS fundamentals.
+              Round 3: System architecture, databases, and explaining past academic projects.
+              Round 4: Director / HR interview on motivation and leadership.
+
+              Preparation Advice: Master standard LeetCode mediums and know your resume projects thoroughly.
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted);">
+              <span><i class="far fa-calendar-alt me-1"></i> Interviewed 2 months ago</span>
+              <span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle me-1"></i> Verified Placement Offer</span>
+            </div>
+          </div>
+
+          <!-- Experience Card 3: Amazon -->
+          <div class="card card-elevated p-4 mb-4 exp-card" data-company="Amazon" data-diff="Hard">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <strong style="color: var(--text-main); font-size: 1.15rem;">Amazon</strong>
+                  <span class="badge badge-purple">SDE-1</span>
+                  <span class="badge badge-gray">Batch 2024</span>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-user-check me-1"></i> Shared by Senior Student • 3 Technical Rounds</span>
+              </div>
+              <span class="badge badge-red">Difficulty: Hard</span>
+            </div>
+
+            <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; white-space: pre-line; background-color: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              The interview had 1 OA and 3 technical rounds focusing on DSA and Amazon's 16 Leadership Principles.
+              Every technical round had 20 minutes dedicated to LP questions using the STAR format.
+              Coding problems involved Trie search and Top-K elements using Min-Heap.
+
+              Key takeaway: Prepare 2-3 genuine project stories aligned with Customer Obsession and Bias for Action.
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted);">
+              <span><i class="far fa-calendar-alt me-1"></i> Interviewed 1 month ago</span>
+              <span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle me-1"></i> Verified Placement Offer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Fragment -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </div>
+
+  <!-- SHARE INTERVIEW EXPERIENCE MODAL -->
+  <div class="modal-overlay" id="share-exp-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Share Your Campus Interview Debrief</h3>
+        <button type="button" class="modal-close-btn" onclick="window.closeModal('share-exp-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="share-exp-form">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" id="share-company" class="form-control" placeholder="e.g. Google, Atlassian" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role / Position</label>
+              <input type="text" id="share-role" class="form-control" placeholder="e.g. SDE-1, Backend Intern" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Graduation Batch</label>
+              <input type="text" id="share-batch" class="form-control" placeholder="e.g. 2026" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Interview Difficulty</label>
+              <select id="share-diff" class="form-select">
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+                <option value="Easy">Easy</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Interview Rounds & Question Details</label>
+            <textarea id="share-text" class="form-control" style="min-height: 140px;" placeholder="Describe each round, questions asked, key topics tested, and advice for juniors..." required></textarea>
+          </div>
+
+          <div class="modal-footer" style="padding-right: 0; padding-bottom: 0;">
+            <button type="button" class="btn btn-secondary" onclick="window.closeModal('share-exp-modal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit Experience</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script>
+    // Search and filter logic
+    const expSearch = document.getElementById('exp-search');
+    const compFilter = document.getElementById('exp-company-filter');
+    const diffFilter = document.getElementById('exp-diff-filter');
+
+    function filterExperiences() {
+      const q = expSearch.value.toLowerCase();
+      const comp = compFilter.value.toLowerCase();
+      const diff = diffFilter.value.toLowerCase();
+
+      document.querySelectorAll('.exp-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const cardComp = (card.getAttribute('data-company') || '').toLowerCase();
+        const cardDiff = (card.getAttribute('data-diff') || '').toLowerCase();
+
+        const matchQ = !q || text.includes(q);
+        const matchComp = !comp || cardComp.includes(comp);
+        const matchDiff = !diff || cardDiff === diff;
+
+        card.style.display = (matchQ && matchComp && matchDiff) ? 'block' : 'none';
+      });
+    }
+
+    if (expSearch) expSearch.addEventListener('input', filterExperiences);
+    if (compFilter) compFilter.addEventListener('change', filterExperiences);
+    if (diffFilter) diffFilter.addEventListener('change', filterExperiences);
+
+    // Form submission
+    const form = document.getElementById('share-exp-form');
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const payload = {
+          companyName: document.getElementById('share-company').value.trim(),
+          role: document.getElementById('share-role').value.trim(),
+          batch: document.getElementById('share-batch').value.trim(),
+          difficulty: document.getElementById('share-diff').value,
+          experienceText: document.getElementById('share-text').value.trim()
+        };
+
+        try {
+          const res = await fetch('/api/interview-experiences', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            window.closeModal('share-exp-modal');
+            window.showToast('Interview experience submitted successfully! Thank you for helping juniors.', 'success');
+            setTimeout(() => { window.location.reload(); }, 800);
+          } else {
+            window.showToast('Please sign in to submit an interview review.', 'warning');
+          }
+        } catch(err) {
+          window.showToast('Error saving experience: ' + err.message, 'error');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

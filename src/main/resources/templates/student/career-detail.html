@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${careerName != null ? careerName + ' — Career Compass' : 'Career Overview — Career Compass'}">Career Overview — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-wrapper">
+      <!-- Header Fragment -->
+      <div th:replace="~{fragments/header :: header}"></div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <div class="mb-4">
+          <a href="/careers" class="text-secondary" style="font-size: 0.85rem;"><i class="fas fa-arrow-left me-1"></i> Back to All Career Paths</a>
+        </div>
+
+        <!-- Career Header Banner -->
+        <div class="card mb-4 p-4" style="background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 100%); border: 1px solid var(--primary-border); box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; margin: 0;" th:text="${careerName != null ? careerName : 'Software Development Engineer (SDE)'}">
+                  Software Development Engineer (SDE)
+                </h1>
+                <span class="badge badge-purple">Benchmark Curriculum</span>
+              </div>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 720px; margin: 0;">
+                Comprehensive guide to core responsibilities, technical proficiency benchmarks, learning phases, and campus placement question sets.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button type="button" class="btn btn-primary" id="detail-set-target-btn" th:data-role="${careerName}">
+                <i class="fas fa-bullseye me-2"></i> Set as My Target Career
+              </button>
+              <a href="/skill-assessment" class="btn btn-outline">
+                <i class="fas fa-sliders-h me-2"></i> Take Assessment
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Career Detailed Sections Grid -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;" class="mb-4">
+          <!-- Left Column -->
+          <div>
+            <!-- Overview & Responsibilities -->
+            <div class="card mb-4">
+              <h3 class="card-title mb-3"><i class="fas fa-laptop-code text-primary"></i> Role Overview & Core Responsibilities</h3>
+              <ul style="list-style: none; padding: 0; line-height: 1.8; color: var(--text-secondary); font-size: 0.9rem;">
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Architect scalable, maintainable, and well-tested distributed software systems.</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Apply optimal algorithmic data structures to minimize runtime latency and memory overhead.</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Design database schemas, write efficient indexed queries, and manage relational transactions.</li>
+                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i> Collaborate across teams through clean code reviews, Git branches, and continuous deployment.</li>
+              </ul>
+            </div>
+
+            <!-- Required Technical Skills Breakdown -->
+            <div class="card mb-4">
+              <h3 class="card-title mb-3"><i class="fas fa-layer-group text-secondary"></i> Required Technical Skills (Benchmark 1–5)</h3>
+              <div class="grid-2">
+                <div class="card card-elevated p-3">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <strong style="color: var(--text-main); font-size: 0.9rem;">Data Structures & Algorithms</strong>
+                    <span class="badge badge-purple">Level 5 / 5</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Trees, Graphs, Dynamic Programming, Complexity</p>
+                </div>
+
+                <div class="card card-elevated p-3">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <strong style="color: var(--text-main); font-size: 0.9rem;">Core Programming (Java / C++)</strong>
+                    <span class="badge badge-purple">Level 5 / 5</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">OOP, Memory management, Collections, Concurrency</p>
+                </div>
+
+                <div class="card card-elevated p-3">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <strong style="color: var(--text-main); font-size: 0.9rem;">DBMS & SQL</strong>
+                    <span class="badge badge-blue">Level 4 / 5</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Normalization, Indexing, Transactions (ACID)</p>
+                </div>
+
+                <div class="card card-elevated p-3">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <strong style="color: var(--text-main); font-size: 0.9rem;">Operating Systems & Networks</strong>
+                    <span class="badge badge-blue">Level 3 / 5</span>
+                  </div>
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Threads, Processes, TCP/IP, Sockets, Memory</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recommended Learning Sequence -->
+            <div class="card">
+              <h3 class="card-title mb-3"><i class="fas fa-route text-warning"></i> Recommended Learning Sequence</h3>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="card card-elevated p-3" style="border-left: 3px solid var(--primary);">
+                  <strong style="color: var(--text-main);">Phase 1: Programming Fundamentals & OOP</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0;">Master syntax, standard library collections, and object-oriented architecture patterns.</p>
+                </div>
+                <div class="card card-elevated p-3" style="border-left: 3px solid var(--secondary);">
+                  <strong style="color: var(--text-main);">Phase 2: DSA Core (Arrays, Linked Lists, Trees, Graphs)</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0;">Solve 150+ standard placement interview questions on LeetCode / HackerRank.</p>
+                </div>
+                <div class="card card-elevated p-3" style="border-left: 3px solid var(--success);">
+                  <strong style="color: var(--text-main);">Phase 3: Database & CS Fundamentals</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0;">Relational modeling, indexing, operating system concurrency, and computer networks.</p>
+                </div>
+                <div class="card card-elevated p-3" style="border-left: 3px solid var(--warning);">
+                  <strong style="color: var(--text-main);">Phase 4: Capstone Engineering Project & Placement Mock Interviews</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0;">Build production full-stack SaaS project and practice company-specific interview sets.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div>
+            <!-- Career Snapshot Card -->
+            <div class="card mb-4">
+              <h3 class="card-title mb-3"><i class="fas fa-info-circle text-primary"></i> Track Profile</h3>
+              <div style="font-size: 0.85rem; line-height: 2;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.35rem 0;">
+                  <span style="color: var(--text-muted);">Preparation Duration:</span>
+                  <span style="font-weight: 600; color: var(--text-main);">6 Months</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.35rem 0;">
+                  <span style="color: var(--text-muted);">Daily Study Commitment:</span>
+                  <span style="font-weight: 600; color: var(--text-main);">3.5 Hours / Day</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.35rem 0;">
+                  <span style="color: var(--text-muted);">Hiring Demand:</span>
+                  <span class="badge badge-green">Very High (Tier 1)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.35rem 0;">
+                  <span style="color: var(--text-muted);">Placement CTC Range:</span>
+                  <span style="font-weight: 700; color: var(--primary);">12 – 45 LPA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hiring Companies -->
+            <div class="card">
+              <h3 class="card-title mb-3"><i class="fas fa-building text-secondary"></i> Visiting Employers</h3>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="/question-sets" class="btn btn-secondary w-100 text-start" style="justify-content: flex-start;">
+                  <i class="fab fa-google text-primary me-2"></i> Google Practice Questions
+                </a>
+                <a href="/question-sets" class="btn btn-secondary w-100 text-start" style="justify-content: flex-start;">
+                  <i class="fab fa-amazon text-warning me-2"></i> Amazon Question Kit
+                </a>
+                <a href="/question-sets" class="btn btn-secondary w-100 text-start" style="justify-content: flex-start;">
+                  <i class="fab fa-microsoft text-secondary me-2"></i> Microsoft Prep Sets
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Fragment -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script>
+    const setBtn = document.getElementById('detail-set-target-btn');
+    if (setBtn) {
+      setBtn.addEventListener('click', async function () {
+        const role = this.getAttribute('data-role');
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner"></span> Saving...';
+        try {
+          const res = await fetch('/api/user/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ targetRoleName: role })
+          });
+          if (res.ok) {
+            window.showToast(`Selected "${role}" as target! Generating roadmap...`, 'success');
+            await fetch('/api/roadmaps/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ careerPathName: role })
+            });
+            setTimeout(() => { window.location.href = '/dashboard'; }, 700);
+          } else {
+            window.showToast('Please sign in to save your target career track.', 'warning');
+          }
+        } catch (e) {
+          window.showToast('Error: ' + e.message, 'error');
+        } finally {
+          this.disabled = false;
+          this.innerHTML = '<i class="fas fa-bullseye me-2"></i> Set as My Target Career';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

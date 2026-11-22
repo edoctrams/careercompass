@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Career Paths — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-wrapper">
+      <!-- Header Fragment -->
+      <div th:replace="~{fragments/header :: header}"></div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 class="page-title">Explore Engineering Career Paths</h1>
+            <p class="page-subtitle">Benchmark curriculum and hiring standards for 8 leading software & technology disciplines</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <input type="text" id="career-search-input" class="form-control" placeholder="Search roles or skills..." style="width: 250px;">
+          </div>
+        </div>
+
+        <!-- 8 Career Track Cards -->
+        <div class="grid-4" id="careers-grid">
+          <!-- 1. Software Development Engineer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Software Development Engineer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-purple">High Demand</span>
+              <span class="badge badge-yellow">6 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Software Development Engineer (SDE)
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Build, test, and maintain robust software products, distributed architectures, and algorithmic systems.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Java</span>
+                <span class="badge badge-gray">DSA</span>
+                <span class="badge badge-gray">OOP</span>
+                <span class="badge badge-gray">System Design</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Software%20Development%20Engineer%20(SDE)" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Software Development Engineer (SDE)">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 2. Backend Developer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Backend Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-blue">Systems Track</span>
+              <span class="badge badge-yellow">6 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Backend Developer
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Design server-side applications, microservices, secure REST APIs, and database transactions.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Spring Boot</span>
+                <span class="badge badge-gray">REST APIs</span>
+                <span class="badge badge-gray">SQL</span>
+                <span class="badge badge-gray">DBMS</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Backend%20Developer" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Backend Developer">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 3. Frontend Developer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Frontend Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-green">UI/UX Track</span>
+              <span class="badge badge-green">5 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Frontend Developer
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Architect performant, accessible web user interfaces, design systems, and client state.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">React</span>
+                <span class="badge badge-gray">JavaScript</span>
+                <span class="badge badge-gray">HTML5</span>
+                <span class="badge badge-gray">CSS3</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Frontend%20Developer" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Frontend Developer">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 4. Full Stack Developer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Full Stack Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-purple">End-to-End</span>
+              <span class="badge badge-yellow">7 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Full Stack Developer
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Bridge user experience and server infrastructure, building scalable modern web products.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">React</span>
+                <span class="badge badge-gray">Spring Boot</span>
+                <span class="badge badge-gray">SQL</span>
+                <span class="badge badge-gray">Git</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Full%20Stack%20Developer" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Full Stack Developer">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 5. AI/ML Engineer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="AI/ML Engineer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-purple">AI Pioneer</span>
+              <span class="badge badge-red">8 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              AI/ML Engineer
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Train machine learning algorithms, deep learning models, and deploy neural networks in production.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Python</span>
+                <span class="badge badge-gray">Machine Learning</span>
+                <span class="badge badge-gray">Deep Learning</span>
+                <span class="badge badge-gray">PyTorch</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=AI%2FML%20Engineer" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="AI/ML Engineer">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 6. Data Scientist -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Data Scientist">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-blue">Analytics Core</span>
+              <span class="badge badge-yellow">7 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Data Scientist
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Apply statistical inference, modeling, and exploratory analysis to discover predictive patterns.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Statistics</span>
+                <span class="badge badge-gray">Python</span>
+                <span class="badge badge-gray">Pandas</span>
+                <span class="badge badge-gray">SQL</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Data%20Scientist" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Data Scientist">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 7. Data Analyst -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Data Analyst">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-green">Business Tech</span>
+              <span class="badge badge-green">4 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Data Analyst
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Convert multi-source relational datasets into executive dashboards, KPIs, and reports.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">SQL</span>
+                <span class="badge badge-gray">Data Analysis</span>
+                <span class="badge badge-gray">Excel</span>
+                <span class="badge badge-gray">Python</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Data%20Analyst" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Data Analyst">Set Target</button>
+            </div>
+          </div>
+
+          <!-- 8. Cybersecurity Engineer -->
+          <div class="card card-hover-lift p-4 career-card" data-title="Cybersecurity Engineer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-red">Security</span>
+              <span class="badge badge-red">7 Months</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              Cybersecurity Engineer
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Secure distributed infrastructure, audit attack surfaces, and implement cryptography standards.
+            </p>
+            <div style="margin-bottom: 1.25rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Benchmark Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Networks</span>
+                <span class="badge badge-gray">Linux</span>
+                <span class="badge badge-gray">Security</span>
+                <span class="badge badge-gray">Crypto</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+              <a href="/career-detail?role=Cybersecurity%20Engineer" class="btn btn-sm btn-outline flex-1">Explore Role</a>
+              <button type="button" class="btn btn-sm btn-primary set-target-btn" data-role="Cybersecurity Engineer">Set Target</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Fragment -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script>
+    // Quick role search filter
+    const searchInput = document.getElementById('career-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        document.querySelectorAll('.career-card').forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(query) ? 'flex' : 'none';
+        });
+      });
+    }
+
+    // Target Career Selection
+    document.querySelectorAll('.set-target-btn').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const role = this.getAttribute('data-role');
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner"></span>';
+        try {
+          const res = await fetch('/api/user/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ targetRoleName: role })
+          });
+          if (res.ok) {
+            window.showToast(`Selected "${role}" as your target career! Generating roadmap...`, 'success');
+            await fetch('/api/roadmaps/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ careerPathName: role })
+            });
+            setTimeout(() => { window.location.href = '/dashboard'; }, 700);
+          } else {
+            window.showToast('Please sign in to save your target career track.', 'warning');
+          }
+        } catch (e) {
+          window.showToast('Error: ' + e.message, 'error');
+        } finally {
+          this.disabled = false;
+          this.innerHTML = 'Set Target';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

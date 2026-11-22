@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Project Recommendations — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-wrapper">
+      <!-- Header Fragment -->
+      <div th:replace="~{fragments/header :: header}"></div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 class="page-title">Industry-Grade Portfolio Projects</h1>
+            <p class="page-subtitle">Build real-world software systems designed to stand out on engineering campus resumes</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <span class="badge badge-purple" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+              <i class="fas fa-code-branch me-1"></i> Tailored to SDE & Backend Tracks
+            </span>
+          </div>
+        </div>
+
+        <div class="grid-3 mb-4">
+          <!-- Project 1 -->
+          <div class="card card-hover-lift p-4">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-purple">High Impact</span>
+              <span class="badge badge-yellow">3–4 Weeks</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+              Distributed In-Memory Cache (Redis Clone)
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+              Build a thread-safe in-memory key-value store supporting TTL expiration, LRU eviction algorithm, and TCP socket protocol serialization.
+            </p>
+            <div style="margin-bottom: 1rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Technologies & Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Java / C++</span>
+                <span class="badge badge-gray">Concurrency</span>
+                <span class="badge badge-gray">Sockets</span>
+                <span class="badge badge-gray">LRU</span>
+              </div>
+            </div>
+            <div style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.85rem; display: flex; justify-content: space-between; align-items: center;">
+              <span class="badge badge-yellow"><i class="fas fa-spinner me-1"></i> In Progress</span>
+              <button type="button" class="btn btn-sm btn-primary" onclick="window.openModal('project-modal-1')">View Architecture</button>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="card card-hover-lift p-4">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-blue">Full Stack SaaS</span>
+              <span class="badge badge-yellow">4 Weeks</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+              Scalable E-Commerce Microservices Engine
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+              Microservices system featuring product catalog, order transactions with ACID rollback, JWT authorization, and payment webhook integrations.
+            </p>
+            <div style="margin-bottom: 1rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Technologies & Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Spring Boot</span>
+                <span class="badge badge-gray">PostgreSQL</span>
+                <span class="badge badge-gray">Docker</span>
+                <span class="badge badge-gray">REST</span>
+              </div>
+            </div>
+            <div style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.85rem; display: flex; justify-content: space-between; align-items: center;">
+              <span class="badge badge-gray">Not Started</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="window.showToast('Project added to your active learning queue!', 'success')">Start Project</button>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="card card-hover-lift p-4">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <span class="badge badge-green">DevOps / Cloud</span>
+              <span class="badge badge-green">2 Weeks</span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">
+              API Rate Limiter & Reverse Proxy Gateway
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+              A reverse proxy gateway implementing sliding-window rate limiting algorithms to prevent DoS attacks and optimize upstream API traffic.
+            </p>
+            <div style="margin-bottom: 1rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem; font-weight: 600;">Technologies & Skills:</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <span class="badge badge-gray">Go / Java</span>
+                <span class="badge badge-gray">Sliding Window</span>
+                <span class="badge badge-gray">HTTP</span>
+              </div>
+            </div>
+            <div style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.85rem; display: flex; justify-content: space-between; align-items: center;">
+              <span class="badge badge-gray">Not Started</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="window.showToast('Project added to queue!', 'success')">Start Project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Fragment -->
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </div>
+
+  <!-- Project Architecture Modal -->
+  <div class="modal-overlay" id="project-modal-1">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Distributed Cache Architecture Blueprint</h3>
+        <button type="button" class="modal-close-btn" onclick="window.closeModal('project-modal-1')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4 style="font-size: 1rem; color: var(--text-main); margin-bottom: 0.5rem;">Core Design Components:</h4>
+        <ul style="list-style: none; padding: 0; line-height: 1.8; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;">
+          <li><b>1. Storage Layer:</b> <code>ConcurrentHashMap&lt;String, Node&gt;</code> for O(1) key lookups.</li>
+          <li><b>2. Eviction Order:</b> Custom Doubly Linked List with head (MRU) and tail (LRU) pointers.</li>
+          <li><b>3. Concurrency:</b> Fine-grained <code>ReentrantReadWriteLock</code> ensuring thread safety without locking the entire store.</li>
+          <li><b>4. Expiration Worker:</b> Background daemon scheduled task removing expired keys lazily and proactively.</li>
+        </ul>
+        <div class="card p-3" style="background: #F8FAFC; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.8rem; color: #1E293B;">
+          // Resume Impact Bullet Point:<br>
+          "Architected thread-safe in-memory distributed cache handling 15,000+ QPS with sub-2ms latency utilizing LRU eviction and ReadWriteLock concurrency."
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.closeModal('project-modal-1')">Close</button>
+        <button type="button" class="btn btn-primary" onclick="window.closeModal('project-modal-1'); window.showToast('Added to your active roadmap tasks!', 'success');">Add to Roadmap</button>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

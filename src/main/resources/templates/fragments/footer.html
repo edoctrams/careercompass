@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <!-- Footer Fragment -->
+  <footer th:fragment="footer" style="background-color: var(--bg-surface); border-top: 1px solid var(--border); padding: 3rem 0 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 2rem; margin-bottom: 2.5rem;" class="footer-grid">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--primary); display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fas fa-compass"></i>
+            </div>
+            <strong style="color: var(--text-main); font-size: 1.1rem;">Career Compass</strong>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 360px; line-height: 1.6;">
+            Personalized career development, skill gap analysis, and placement preparation platform engineered for engineering students.
+          </p>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; font-weight: 700;">Platform</h5>
+          <ul style="list-style: none; padding: 0; line-height: 2; font-size: 0.85rem;">
+            <li><a href="/careers" style="color: var(--text-secondary);">Explore Careers</a></li>
+            <li><a href="/skill-assessment" style="color: var(--text-secondary);">Skill Assessment</a></li>
+            <li><a href="/roadmap" style="color: var(--text-secondary);">Roadmap Engine</a></li>
+            <li><a href="/question-sets" style="color: var(--text-secondary);">Question Bank</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; font-weight: 700;">Resources</h5>
+          <ul style="list-style: none; padding: 0; line-height: 2; font-size: 0.85rem;">
+            <li><a href="/job-description" style="color: var(--text-secondary);">JD Analyzer</a></li>
+            <li><a href="/resources" style="color: var(--text-secondary);">Learning Materials</a></li>
+            <li><a href="/companies" style="color: var(--text-secondary);">Company Kits</a></li>
+            <li><a href="/interview-experiences" style="color: var(--text-secondary);">Interview Reviews</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: var(--text-main); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; font-weight: 700;">System Status</h5>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--success); display: inline-block;"></span>
+            <span style="color: var(--text-main); font-size: 0.85rem; font-weight: 600;">All Systems Operational</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.8rem;">
+            Java 21 • Spring Boot • PostgreSQL Database
+          </p>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+        <div>&copy; 2026 Career Compass. All rights reserved. Built for engineering placement excellence.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" style="color: var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="color: var(--text-muted);">Terms of Service</a>
+          <a href="#" style="color: var(--text-muted);">Honor Code</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

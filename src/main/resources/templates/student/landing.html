@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Compass — Your Career. Your Roadmap. Your Future.</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Fragment -->
+  <div th:replace="~{fragments/header :: header}"></div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section style="padding: 5rem 2rem 4rem; text-align: center; background: linear-gradient(180deg, #EEF2FF 0%, var(--bg-page) 100%); border-bottom: 1px solid var(--border);">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <span class="badge badge-purple mb-3" style="font-size: 0.85rem; padding: 0.4rem 1rem; border-radius: 9999px;">
+          <i class="fas fa-sparkles me-1"></i> Intelligent Career & Placement Preparation Platform
+        </span>
+        <h1 style="font-size: clamp(2.4rem, 4.5vw, 3.75rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.25rem; color: var(--text-main);">
+          Your Career. Your Roadmap.<br>
+          <span style="color: var(--primary);">Your Future.</span>
+        </h1>
+        <p style="font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.6;">
+          Build the skills, confidence and preparation needed to reach your dream career with a personalized learning roadmap.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem;">
+          <a href="/register" class="btn btn-primary btn-lg">
+            <i class="fas fa-rocket me-2"></i> Get Started Free
+          </a>
+          <a href="/careers" class="btn btn-secondary btn-lg">
+            <i class="fas fa-compass me-2"></i> Explore Careers
+          </a>
+        </div>
+
+        <!-- Hero Visual Mockup: Personalized Dashboard Preview -->
+        <div class="card p-4 text-start" style="border-radius: var(--radius-lg); border: 1px solid var(--border); background-color: var(--bg-surface); box-shadow: var(--shadow-lg);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444; display: inline-block;"></span>
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #F59E0B; display: inline-block;"></span>
+              <span style="width: 12px; height: 12px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+              <span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem; font-family: var(--font-mono);">careercompass.io/dashboard</span>
+            </div>
+            <span class="badge badge-green"><i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Active Preparation • SDE Track</span>
+          </div>
+
+          <div class="grid-3 mb-4">
+            <div class="card card-elevated p-3">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Preparation Streak</span>
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-top: 0.25rem;">
+                🔥 14 Days
+              </div>
+              <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;"><i class="fas fa-arrow-up"></i> Top 5% Consistency</span>
+            </div>
+            <div class="card card-elevated p-3">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Skill Gap Score</span>
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-top: 0.25rem;">
+                82% Ready
+              </div>
+              <div class="progress-container mt-2">
+                <div class="progress-bar" style="width: 82%;"></div>
+              </div>
+            </div>
+            <div class="card card-elevated p-3">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Weekly Study Hours</span>
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--secondary); margin-top: 0.25rem;">
+                18 / 21 hrs
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-secondary);">3 hours left this week</span>
+            </div>
+          </div>
+
+          <!-- Roadmap timeline preview snippet -->
+          <div style="background-color: var(--bg-subtle); border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;"><i class="fas fa-calendar-alt text-primary me-2"></i> Today's Recommended Task</strong>
+              <span class="badge badge-purple">High Priority</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-main); margin: 0;">Binary Tree Traversal & Lowest Common Ancestor (LCA)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.2rem 0 0;">Skill: Data Structures & Algorithms • Duration: 1.5 hours</p>
+              </div>
+              <a href="/register" class="btn btn-sm btn-primary">Start Task</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: HOW CAREER COMPASS WORKS -->
+    <section style="padding: 4.5rem 2rem; max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <span class="badge badge-blue mb-2">Guided Journey</span>
+        <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">How Career Compass Works</h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0.5rem auto 0;">A proven four-step engine that transitions college students into placement-ready software engineers.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card card-hover-lift text-center p-4">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 1.25rem;">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">1. Choose Target Role</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">Select from 8 core engineering career paths tailored to campus hiring.</p>
+        </div>
+
+        <div class="card card-hover-lift text-center p-4">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--secondary-light); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 1.25rem;">
+            <i class="fas fa-sliders-h"></i>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">2. Assess Skill Gaps</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">Evaluate your current proficiency against benchmark requirements.</p>
+        </div>
+
+        <div class="card card-hover-lift text-center p-4">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--warning-light); color: var(--warning); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 1.25rem;">
+            <i class="fas fa-route"></i>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">3. Follow Roadmap</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">Get daily personalized tasks, resources, and missed-task recovery.</p>
+        </div>
+
+        <div class="card card-hover-lift text-center p-4">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 1.25rem;">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);">4. Ace Placements</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">Practice company question sets, mock coding tests, and HR rounds.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: EXPLORE CAREER PATHS -->
+    <section style="padding: 4.5rem 2rem; background-color: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="badge badge-purple mb-2">Curated Industry Paths</span>
+            <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em;">8 Target Career Tracks</h2>
+          </div>
+          <a href="/careers" class="btn btn-outline">View All Roles <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+
+        <div class="grid-4">
+          <div class="card card-elevated p-4">
+            <span class="badge badge-purple mb-2">High Demand</span>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Software Development Engineer</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Algorithms, data structures, OOP, system design, and distributed backends.</p>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <span class="badge badge-gray">Java</span>
+              <span class="badge badge-gray">DSA</span>
+              <span class="badge badge-gray">DBMS</span>
+            </div>
+          </div>
+
+          <div class="card card-elevated p-4">
+            <span class="badge badge-blue mb-2">Core Tech</span>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Backend Developer</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Scalable server-side architectures, REST APIs, databases, and microservices.</p>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <span class="badge badge-gray">Spring Boot</span>
+              <span class="badge badge-gray">SQL</span>
+              <span class="badge badge-gray">APIs</span>
+            </div>
+          </div>
+
+          <div class="card card-elevated p-4">
+            <span class="badge badge-green mb-2">UI Engineering</span>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Frontend Developer</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Modern responsive interfaces, single page applications, React, and UX.</p>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <span class="badge badge-gray">React</span>
+              <span class="badge badge-gray">JavaScript</span>
+              <span class="badge badge-gray">CSS</span>
+            </div>
+          </div>
+
+          <div class="card card-elevated p-4">
+            <span class="badge badge-yellow mb-2">Full Lifecycle</span>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Full Stack Developer</h3>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">End-to-end web engineering from responsive frontend to cloud database.</p>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <span class="badge badge-gray">Full Stack</span>
+              <span class="badge badge-gray">React</span>
+              <span class="badge badge-gray">Java</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: PLACEMENT PREPARATION -->
+    <section style="padding: 4.5rem 2rem; max-width: 1200px; margin: 0 auto;">
+      <div class="grid-2" style="align-items: center; gap: 3rem;">
+        <div>
+          <span class="badge badge-green mb-2"><i class="fas fa-briefcase me-1"></i> Campus Placement Ready</span>
+          <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); line-height: 1.2; margin-bottom: 1rem;">
+            Placement Question Bank & Company Kits
+          </h2>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+            Practice questions organized by top recruiting companies (Google, Microsoft, Amazon, Cisco, Atlassian) and graduation batches. Ace MCQs, live coding challenges, and HR behavioral interviews.
+          </p>
+          <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+            <li class="mb-2" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-main); font-size: 0.95rem;">
+              <i class="fas fa-check-circle text-success"></i> Multiple Choice Questions with instant verification & solutions
+            </li>
+            <li class="mb-2" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-main); font-size: 0.95rem;">
+              <i class="fas fa-check-circle text-success"></i> Real coding problems with algorithmic complexity breakdowns
+            </li>
+            <li class="mb-2" style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-main); font-size: 0.95rem;">
+              <i class="fas fa-check-circle text-success"></i> Verified campus interview experiences from recent graduates
+            </li>
+          </ul>
+          <a href="/register" class="btn btn-primary">Start Practicing Now</a>
+        </div>
+
+        <div class="card p-4" style="border: 1px solid var(--border); box-shadow: var(--shadow-md);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span class="badge badge-gray"><i class="fas fa-building me-1"></i> Google</span>
+              <span class="badge badge-blue">CODING</span>
+            </div>
+            <span class="badge badge-yellow">Medium</span>
+          </div>
+          <h4 style="color: var(--text-main); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;">Two Sum & Subarray Sum Hashing</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+            Given an integer array nums and a target sum, find index pairs running in optimal O(N) time complexity using hash maps.
+          </p>
+          <div style="background: #F8FAFC; padding: 0.75rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.8rem; color: #1E293B; margin-bottom: 1rem;">
+            Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();<br>
+            // Optimal complement lookup in O(1)
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; color: var(--success); font-weight: 600;"><i class="fas fa-check-double me-1"></i> Verified Placement Question</span>
+            <a href="/register" class="btn btn-sm btn-outline">Solve Problem</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CALL TO ACTION -->
+    <section style="padding: 5rem 2rem; text-align: center; background: linear-gradient(180deg, var(--bg-page) 0%, #EEF2FF 100%); border-top: 1px solid var(--border);">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; margin-bottom: 1rem;">
+          Ready to Ace Your Campus Placements?
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+          Join engineering students preparing systematically with personalized roadmaps, gap analysis, and placement question banks.
+        </p>
+        <a href="/register" class="btn btn-primary btn-lg">
+          <i class="fas fa-user-plus me-2"></i> Create Your Free Account
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Fragment -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

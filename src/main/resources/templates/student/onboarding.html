@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Onboarding — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .career-select-card {
+      cursor: pointer;
+      border: 2px solid var(--border);
+      background-color: var(--bg-surface);
+      transition: all var(--transition-fast);
+      border-radius: var(--radius-md);
+    }
+    .career-select-card:hover {
+      border-color: var(--secondary);
+      background-color: var(--bg-subtle);
+    }
+    .career-select-card.active {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+  </style>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh; background-color: var(--bg-page);">
+  <!-- Header Fragment -->
+  <div th:replace="~{fragments/header :: header}"></div>
+
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.5rem 1.5rem;">
+    <div class="card p-4" style="max-width: 760px; width: 100%; padding: 2.5rem; border: 1px solid var(--border); box-shadow: var(--shadow-md);">
+      <!-- Progress Bar & Indicator -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span class="badge badge-purple" id="onboarding-step-indicator">Step 1 of 4</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">Career Setup Wizard</span>
+      </div>
+      <div class="progress-container mb-4" style="height: 6px;">
+        <div id="onboarding-progress-bar" class="progress-bar" style="width: 25%;"></div>
+      </div>
+
+      <!-- STEP 1: Academic Profile -->
+      <div class="onboarding-step-pane" id="step-pane-1">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">Academic Background</h2>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.75rem;">Tell us about your university specialization and timeline.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="onboarding-branch">Engineering Specialization / Branch</label>
+          <select id="onboarding-branch" class="form-select">
+            <option value="Computer Science">Computer Science & Engineering (CSE)</option>
+            <option value="Computer Engineering">Computer Engineering (COE)</option>
+            <option value="Information Technology">Information Technology (IT)</option>
+            <option value="Electronics and Communication">Electronics & Communication (ECE)</option>
+            <option value="Electrical Engineering">Electrical Engineering (EE)</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Other">Other Engineering Specialization</option>
+          </select>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="onboarding-curr-year">Current College Year</label>
+            <select id="onboarding-curr-year" class="form-select">
+              <option value="1">1st Year (Freshman)</option>
+              <option value="2">2nd Year (Sophomore)</option>
+              <option value="3" selected>3rd Year (Pre-Final)</option>
+              <option value="4">4th Year (Final Year)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="onboarding-grad-year">Graduation Year</label>
+            <select id="onboarding-grad-year" class="form-select">
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Choose Target Career -->
+      <div class="onboarding-step-pane" id="step-pane-2" style="display: none;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">Select Your Target Career</h2>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.75rem;">Your roadmap and skill gap benchmarks will be customized to this track.</p>
+
+        <div class="grid-2" style="gap: 1rem;">
+          <div class="card career-select-card p-3 active" data-career="Software Development Engineer (SDE)">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">Software Engineer (SDE)</strong>
+              <i class="fas fa-code text-primary"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">DSA, Algorithms, OOP, Systems, Databases</p>
+          </div>
+
+          <div class="card career-select-card p-3" data-career="Backend Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">Backend Developer</strong>
+              <i class="fas fa-server text-secondary"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Java, Spring Boot, REST APIs, PostgreSQL</p>
+          </div>
+
+          <div class="card career-select-card p-3" data-career="Frontend Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">Frontend Developer</strong>
+              <i class="fas fa-desktop text-success"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">React, JavaScript, HTML5, CSS3, Modern UI</p>
+          </div>
+
+          <div class="card career-select-card p-3" data-career="Full Stack Developer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">Full Stack Developer</strong>
+              <i class="fas fa-layer-group text-warning"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">End-to-end web architectures & full stacks</p>
+          </div>
+
+          <div class="card career-select-card p-3" data-career="AI/ML Engineer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">AI/ML Engineer</strong>
+              <i class="fas fa-brain" style="color: #ec4899;"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Machine Learning, Deep Learning, PyTorch, Python</p>
+          </div>
+
+          <div class="card career-select-card p-3" data-career="Cybersecurity Engineer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: var(--text-main); font-size: 0.95rem;">Cybersecurity Engineer</strong>
+              <i class="fas fa-shield-alt text-danger"></i>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Network Security, Linux, OS, Cryptography</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Study Hours & Timeline -->
+      <div class="onboarding-step-pane" id="step-pane-3" style="display: none;">
+        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">Commitment & Target Goal</h2>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.75rem;">Set your study bandwidth and key placement aspiration.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="onboarding-hours">Daily Available Preparation Hours</label>
+          <div class="input-with-icon">
+            <i class="far fa-clock input-icon"></i>
+            <input type="number" id="onboarding-hours" class="form-control" min="1" max="14" value="3">
+          </div>
+          <span class="form-helper">Recommended: 3 to 4 hours daily during campus placement semester.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="onboarding-goal">Specific Career / Company Dream Goal</label>
+          <textarea id="onboarding-goal" class="form-control" style="min-height: 90px;" placeholder="e.g. Secure an SDE-1 offer at a product company like Google, Microsoft, or Atlassian."></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 4: Ready to Launch -->
+      <div class="onboarding-step-pane" id="step-pane-4" style="display: none; text-align: center; padding: 1.5rem 0;">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--success-light); color: var(--success); display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem;">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">You Are All Set!</h2>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem;">
+          Career Compass is ready to synthesize your baseline timeline, generate your personalized learning tasks, and unlock the placement question bank.
+        </p>
+      </div>
+
+      <!-- Action Navigation Buttons -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+        <button type="button" id="onboarding-prev-btn" class="btn btn-secondary" style="display: none;">
+          <i class="fas fa-arrow-left me-1"></i> Back
+        </button>
+        <div style="margin-left: auto; display: flex; gap: 0.75rem;">
+          <button type="button" id="onboarding-next-btn" class="btn btn-primary">
+            Next Step <i class="fas fa-arrow-right ms-1"></i>
+          </button>
+          <button type="button" id="onboarding-submit-btn" class="btn btn-success" style="display: none;">
+            <i class="fas fa-compass me-2"></i> Launch My Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Fragment -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <script th:src="@{/js/app.js}"></script>
+  <script th:src="@{/js/onboarding.js}"></script>
+</body>
+</html>
