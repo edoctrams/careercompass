@@ -84,61 +84,70 @@
         </div>
       </div>
 
-      <!-- STEP 2: Choose Target Career -->
-      <div class="onboarding-step-pane" id="step-pane-2" style="display: none;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">Select Your Target Career</h2>
-        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.75rem;">Your roadmap and skill gap benchmarks will be customized to this track.</p>
+      
+<!-- STEP 2: Career Interest Assessment -->
+<div class="onboarding-step-pane" id="step-pane-2"
+     style="display: none;">
 
-        <div class="grid-2" style="gap: 1rem;">
-          <div class="card career-select-card p-3 active" data-career="Software Development Engineer (SDE)">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">Software Engineer (SDE)</strong>
-              <i class="fas fa-code text-primary"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">DSA, Algorithms, OOP, Systems, Databases</p>
-          </div>
+  <h2 style="font-size: 1.5rem; font-weight: 800;
+      color: var(--text-main); margin-bottom: 0.35rem;">
+    Discover Your Career Interests
+  </h2>
 
-          <div class="card career-select-card p-3" data-career="Backend Developer">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">Backend Developer</strong>
-              <i class="fas fa-server text-secondary"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Java, Spring Boot, REST APIs, PostgreSQL</p>
-          </div>
+  <p style="font-size: 0.85rem; color: var(--text-secondary);
+      margin-bottom: 1.5rem;">
+    Answer these 8 questions to discover your top three career matches.
+  </p>
 
-          <div class="card career-select-card p-3" data-career="Frontend Developer">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">Frontend Developer</strong>
-              <i class="fas fa-desktop text-success"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">React, JavaScript, HTML5, CSS3, Modern UI</p>
-          </div>
+  <div id="assessment-loading" class="card p-3 mb-3">
+    Loading career assessment questions...
+  </div>
 
-          <div class="card career-select-card p-3" data-career="Full Stack Developer">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">Full Stack Developer</strong>
-              <i class="fas fa-layer-group text-warning"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">End-to-end web architectures & full stacks</p>
-          </div>
+  <div id="assessment-error" class="alert alert-danger mb-3"
+       style="display: none;" role="alert"></div>
 
-          <div class="card career-select-card p-3" data-career="AI/ML Engineer">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">AI/ML Engineer</strong>
-              <i class="fas fa-brain" style="color: #ec4899;"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Machine Learning, Deep Learning, PyTorch, Python</p>
-          </div>
+  <div id="assessment-questions"></div>
 
-          <div class="card career-select-card p-3" data-career="Cybersecurity Engineer">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-              <strong style="color: var(--text-main); font-size: 0.95rem;">Cybersecurity Engineer</strong>
-              <i class="fas fa-shield-alt text-danger"></i>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Network Security, Linux, OS, Cryptography</p>
-          </div>
-        </div>
-      </div>
+  <button type="button" id="analyze-career-btn"
+          class="btn btn-primary mt-3" disabled>
+    <i class="fas fa-chart-line me-2"></i>
+    Analyze My Interests
+  </button>
+
+  <!-- Recommendation Results -->
+  <div id="assessment-results-section"
+       style="display: none; margin-top: 2rem;">
+
+    <div class="card p-3 mb-3">
+      <h3 style="font-size: 1.1rem; font-weight: 700;">
+        Your Top Three Career Matches
+      </h3>
+
+      <p style="font-size: 0.8rem; color: var(--text-secondary);">
+        These scores represent your interest alignment, not job-success
+        probabilities.
+      </p>
+
+      <div id="recommendations-list"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="selected-career">
+        Choose Your Final Career Stream
+      </label>
+
+      <select id="selected-career" class="form-select">
+        <option value="">Select a career</option>
+      </select>
+
+      <span class="form-helper">
+        You may select any of the four career streams, even if it is
+        not among your top three recommendations.
+      </span>
+    </div>
+  </div>
+</div>
+
 
       <!-- STEP 3: Study Hours & Timeline -->
       <div class="onboarding-step-pane" id="step-pane-3" style="display: none;">

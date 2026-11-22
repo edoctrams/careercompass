@@ -71,6 +71,45 @@ public class CareerInterestAssessmentController {
         );
     }
 
+    // POST: Preview recommendations without saving an assessment.
+    @PostMapping("/evaluate")
+    public ResponseEntity<?> evaluateAssessment(
+            @RequestBody SubmissionRequest request) {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Please log in first."));
+        }
+
+        if (request == null || request.answers() == null) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Assessment answers are required."));
+        }
+
+        try {
+            var result = assessmentService.evaluate(
+                    request.answers(), null
+            );
+
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("scores", result.scores());
+            response.put("recommendations", result.recommendations());
+            response.put("recommendedCareerName",
+                    result.recommendedCareerName());
+
+            return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
     // POST: Evaluate, save and select a career.
     @PostMapping("/submit")
     @Transactional
