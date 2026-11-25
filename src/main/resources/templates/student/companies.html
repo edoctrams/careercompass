@@ -1,124 +1,161 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Directory & Placement Kits — Career Compass</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <title>Company Directory — Career Compass</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Sidebar Fragment -->
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="app-container">
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-    <div class="main-wrapper">
-      <!-- Header Fragment -->
-      <div th:replace="~{fragments/header :: header}"></div>
+  <div class="main-wrapper">
+    <div th:replace="~{fragments/header :: header}"></div>
 
-      <!-- Main Content Area -->
-      <div class="content-area">
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h1 class="page-title">Recruiting Company Directory</h1>
-            <p class="page-subtitle">Explore top tech employers visiting campus, their hiring profiles, question kits, and interview patterns</p>
-          </div>
-          <div>
-            <input type="text" id="company-search" class="form-control" placeholder="Search companies or industries..." style="width: 250px;">
-          </div>
-        </div>
-
-        <div class="grid-3" id="companies-grid">
-          <!-- Google -->
-          <div class="card card-hover-lift p-4 company-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div style="width: 46px; height: 46px; border-radius: var(--radius-md); background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #4285F4; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                <i class="fab fa-google"></i>
-              </div>
-              <span class="badge badge-purple">Tier-1 Dream</span>
-            </div>
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">Google</h3>
-            <span style="font-size: 0.75rem; color: var(--secondary); display: block; margin-bottom: 0.75rem; font-weight: 600;">Internet & Cloud Computing</span>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-              Multinational technology leader specializing in search algorithms, distributed systems, Android OS, and Gemini AI.
-            </p>
-            <div style="display: flex; gap: 1.5rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; border-top: 1px solid var(--border); padding-top: 0.75rem;">
-              <div><strong style="color: var(--text-main);">2</strong> Question Sets</div>
-              <div><strong style="color: var(--text-main);">3</strong> Interview Reviews</div>
-            </div>
-            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-              <a href="/question-sets" class="btn btn-sm btn-primary flex-1">View Question Kit</a>
-              <a href="https://careers.google.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-
-          <!-- Amazon -->
-          <div class="card card-hover-lift p-4 company-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div style="width: 46px; height: 46px; border-radius: var(--radius-md); background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #FF9900; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                <i class="fab fa-amazon"></i>
-              </div>
-              <span class="badge badge-purple">High Volume</span>
-            </div>
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">Amazon</h3>
-            <span style="font-size: 0.75rem; color: var(--secondary); display: block; margin-bottom: 0.75rem; font-weight: 600;">Cloud Computing & E-Commerce</span>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-              World leader in e-commerce, AWS distributed cloud infrastructure, robotics, and logistics technologies.
-            </p>
-            <div style="display: flex; gap: 1.5rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; border-top: 1px solid var(--border); padding-top: 0.75rem;">
-              <div><strong style="color: var(--text-main);">3</strong> Question Sets</div>
-              <div><strong style="color: var(--text-main);">5</strong> Interview Reviews</div>
-            </div>
-            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-              <a href="/question-sets" class="btn btn-sm btn-primary flex-1">View Question Kit</a>
-              <a href="https://amazon.jobs" target="_blank" rel="noopener" class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-
-          <!-- Microsoft -->
-          <div class="card card-hover-lift p-4 company-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div style="width: 46px; height: 46px; border-radius: var(--radius-md); background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #00A4EF; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                <i class="fab fa-microsoft"></i>
-              </div>
-              <span class="badge badge-purple">Tier-1 Dream</span>
-            </div>
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">Microsoft</h3>
-            <span style="font-size: 0.75rem; color: var(--secondary); display: block; margin-bottom: 0.75rem; font-weight: 600;">Software & Cloud Infrastructure</span>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-              Global leader in operating systems, Azure hyperscale cloud, developer tooling (GitHub, VS Code), and OpenAI partnerships.
-            </p>
-            <div style="display: flex; gap: 1.5rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; border-top: 1px solid var(--border); padding-top: 0.75rem;">
-              <div><strong style="color: var(--text-main);">2</strong> Question Sets</div>
-              <div><strong style="color: var(--text-main);">4</strong> Interview Reviews</div>
-            </div>
-            <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-              <a href="/question-sets" class="btn btn-sm btn-primary flex-1">View Question Kit</a>
-              <a href="https://careers.microsoft.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-        </div>
+    <main class="content-area">
+      <div class="page-header">
+        <h1 class="page-title">Company Directory</h1>
+        <p class="page-subtitle">
+          Explore three target employers and their official career portals.
+        </p>
       </div>
 
-      <!-- Footer Fragment -->
-      <div th:replace="~{fragments/footer :: footer}"></div>
-    </div>
-  </div>
+      <div class="mb-4">
+        <input type="text" id="company-search"
+               class="form-control"
+               placeholder="Search Amazon, Microsoft or TCS...">
+      </div>
 
-  <script th:src="@{/js/app.js}"></script>
-  <script>
-    const compSearch = document.getElementById('company-search');
-    if (compSearch) {
-      compSearch.addEventListener('input', function() {
-        const query = this.value.toLowerCase();
-        document.querySelectorAll('.company-card').forEach(c => {
-          c.style.display = c.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
-        });
-      });
-    }
-  </script>
+      <div class="grid-3" id="companies-grid">
+
+        <!-- AMAZON -->
+        <div class="card card-hover-lift p-4 company-card">
+          <div class="mb-3">
+            <i class="fab fa-amazon"
+               style="font-size: 2.5rem; color: #FF9900;"></i>
+          </div>
+
+          <h3 class="card-title">Amazon</h3>
+          <span class="badge badge-purple mb-2">E-Commerce & Cloud</span>
+
+          <p class="text-secondary mt-2">
+            Explore software engineering, AWS, distributed systems,
+            data structures and leadership-focused preparation.
+          </p>
+
+          <div class="mt-3">
+            <strong>Preparation areas</strong>
+            <p class="text-secondary">
+              DSA, Java, SQL, Operating Systems and System Design.
+            </p>
+          </div>
+
+          <div class="mt-auto">
+            <a href="/question-sets?company=Amazon"
+               class="btn btn-primary btn-sm">
+              View Question Bank
+            </a>
+
+            <a href="https://www.amazon.jobs/"
+               target="_blank" rel="noopener noreferrer"
+               class="btn btn-outline btn-sm">
+              Official Careers <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- MICROSOFT -->
+        <div class="card card-hover-lift p-4 company-card">
+          <div class="mb-3">
+            <i class="fab fa-microsoft"
+               style="font-size: 2.5rem; color: #00A4EF;"></i>
+          </div>
+
+          <h3 class="card-title">Microsoft</h3>
+          <span class="badge badge-purple mb-2">Software & Cloud</span>
+
+          <p class="text-secondary mt-2">
+            Explore software engineering, Azure, developer technologies
+            and technical interview preparation.
+          </p>
+
+          <div class="mt-3">
+            <strong>Preparation areas</strong>
+            <p class="text-secondary">
+              DSA, OOP, Java, SQL, Operating Systems and Problem Solving.
+            </p>
+          </div>
+
+          <div class="mt-auto">
+            <a href="/question-sets?company=Microsoft"
+               class="btn btn-primary btn-sm">
+              View Question Bank
+            </a>
+
+            <a href="https://careers.microsoft.com/"
+               target="_blank" rel="noopener noreferrer"
+               class="btn btn-outline btn-sm">
+              Official Careers <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- TCS -->
+        <div class="card card-hover-lift p-4 company-card">
+          <div class="mb-3">
+            <strong style="font-size: 2.2rem; color: #2874A6;">TCS</strong>
+          </div>
+
+          <h3 class="card-title">Tata Consultancy Services</h3>
+          <span class="badge badge-purple mb-2">IT Services & Consulting</span>
+
+          <p class="text-secondary mt-2">
+            Explore software development, enterprise technology,
+            programming fundamentals and placement preparation.
+          </p>
+
+          <div class="mt-3">
+            <strong>Preparation areas</strong>
+            <p class="text-secondary">
+              Programming, Java, DSA, DBMS, SQL and Communication.
+            </p>
+          </div>
+
+          <div class="mt-auto">
+            <a href="/question-sets?company=TCS"
+               class="btn btn-primary btn-sm">
+              View Question Bank
+            </a>
+
+            <a href="https://www.tcs.com/careers"
+               target="_blank" rel="noopener noreferrer"
+               class="btn btn-outline btn-sm">
+              Official Careers <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+  </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+<script>
+document.getElementById('company-search').addEventListener('input', function () {
+  const query = this.value.toLowerCase();
+
+  document.querySelectorAll('.company-card').forEach(card => {
+    card.style.display =
+      card.textContent.toLowerCase().includes(query) ? '' : 'none';
+  });
+});
+</script>
 </body>
 </html>
