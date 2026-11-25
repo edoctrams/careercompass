@@ -1,105 +1,96 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Placement Question Bank — Career Compass</title>
+  <title>Company Question Bank — Career Compass</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/style.css}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Sidebar Fragment -->
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+<div class="app-container">
 
-    <div class="main-wrapper">
-      <!-- Header Fragment -->
-      <div th:replace="~{fragments/header :: header}"></div>
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-      <!-- Main Content Area -->
-      <div class="content-area">
-        <!-- Placement Dashboard Stats Bar -->
-        <div class="grid-4 mb-4">
-          <div class="card card-elevated p-3 text-center">
-            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Questions Practiced</span>
-            <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin: 0.2rem 0;">42 Solved</div>
-            <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;"><i class="fas fa-check"></i> 88% Correct</span>
-          </div>
+  <div class="main-wrapper">
+    <div th:replace="~{fragments/header :: header}"></div>
 
-          <div class="card card-elevated p-3 text-center">
-            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Accuracy Rate</span>
-            <div style="font-size: 1.6rem; font-weight: 800; color: var(--secondary); margin: 0.2rem 0;">88.5%</div>
-            <span style="font-size: 0.75rem; color: var(--secondary); font-weight: 600;">Tier-1 Benchmark</span>
-          </div>
+    <main class="content-area">
 
-          <div class="card card-elevated p-3 text-center">
-            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Topics Completed</span>
-            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary); margin: 0.2rem 0;">8 / 12</div>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">DSA, OOP, SQL, OS</span>
-          </div>
+      <div class="page-header">
+        <h1 class="page-title">Company Question Bank</h1>
+        <p class="page-subtitle">
+          Browse company-relevant technical and interview preparation questions.
+        </p>
+      </div>
 
-          <div class="card card-elevated p-3 text-center">
-            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Practice Streak</span>
-            <div style="font-size: 1.6rem; font-weight: 800; color: var(--warning); margin: 0.2rem 0;">🔥 14 Days</div>
-            <span style="font-size: 0.75rem; color: var(--warning); font-weight: 600;">Consistency Lead</span>
-          </div>
-        </div>
+      <div class="card p-3 mb-4">
+        <div class="grid-3">
 
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h1 class="page-title">Placement Question Bank</h1>
-            <p class="page-subtitle">Practice verified MCQs, live coding problems, system architecture queries, and HR behavioral sets</p>
-          </div>
-        </div>
+          <input type="text" id="question-search"
+                 class="form-control"
+                 placeholder="Search questions...">
 
-        <!-- Filter Bar -->
-        <div class="card p-3 mb-4" style="border: 1px solid var(--border); background-color: var(--bg-surface);">
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-            <div style="flex: 1; min-width: 220px;">
-              <input type="text" id="question-search" class="form-control" placeholder="Search problem title or keywords...">
-            </div>
+          <select id="filter-company" class="form-select">
+            <option value="">All Companies</option>
+            <option value="Amazon">Amazon</option>
+            <option value="Microsoft">Microsoft</option>
+            <option value="TCS">TCS</option>
+          </select>
 
-            <div style="width: 180px;">
-              <select id="filter-company" class="form-select">
-                <option value="">All Companies</option>
-                <option value="Google">Google</option>
-                <option value="Amazon">Amazon</option>
-                <option value="Microsoft">Microsoft</option>
-                <option value="Atlassian">Atlassian</option>
-                <option value="Cisco">Cisco</option>
-              </select>
-            </div>
+          <select id="filter-role" class="form-select">
+            <option value="">All Career Streams</option>
+            <option value="Software Development Engineer (SDE)">SDE</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="AI/ML Engineer">AI/ML Engineer</option>
+            <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
+          </select>
 
-            <div style="width: 180px;">
-              <select id="filter-type" class="form-select">
-                <option value="">All Question Types</option>
-                <option value="MCQ">MCQ (Multiple Choice)</option>
-                <option value="CODING">Coding Problem</option>
-                <option value="TECHNICAL">Technical Deep Dive</option>
-                <option value="HR">HR & Behavioral</option>
-              </select>
-            </div>
-          </div>
-        </div>
+          <input type="text" id="filter-topic"
+                 class="form-control"
+                 placeholder="Filter by topic (DSA, SQL...)">
 
-        <!-- Dynamic Question Sets & Problems Container -->
-        <div id="question-bank-container">
-          <!-- Populated by placement.js -->
-          <div class="skeleton skeleton-card mb-3"></div>
-          <div class="skeleton skeleton-card mb-3"></div>
-          <div class="skeleton skeleton-card mb-3"></div>
+          <select id="filter-difficulty" class="form-select">
+            <option value="">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
+          <select id="filter-type" class="form-select">
+            <option value="">All Question Types</option>
+            <option value="MCQ">MCQ</option>
+            <option value="CODING">Coding</option>
+            <option value="TECHNICAL">Technical</option>
+            <option value="HR">HR / Behavioral</option>
+            <option value="BEHAVIORAL">Behavioral</option>
+          </select>
+
         </div>
       </div>
 
-      <!-- Footer Fragment -->
-      <div th:replace="~{fragments/footer :: footer}"></div>
-    </div>
-  </div>
+      <div id="question-source-note" class="card p-3 mb-3">
+        <strong>Source information</strong>
+        <p class="text-secondary mb-0">
+          Questions are general preparation material or company-relevant
+          practice. They are not represented as verified past interview
+          questions unless a specific supporting source is provided.
+        </p>
+      </div>
 
-  <script th:src="@{/js/app.js}"></script>
-  <script th:src="@{/js/placement.js}"></script>
+      <div id="question-bank-container">
+        <div class="skeleton skeleton-card mb-3"></div>
+        <div class="skeleton skeleton-card mb-3"></div>
+      </div>
+
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+  </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/placement.js}"></script>
 </body>
 </html>

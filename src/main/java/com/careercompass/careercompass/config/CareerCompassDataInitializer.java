@@ -1,7 +1,8 @@
 package com.careercompass.careercompass.config;
 
-import com.careercompass.careercompass.entity.*;
-import com.careercompass.careercompass.repository.*;
+import java.time.LocalDate;
+import java.util.Map;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +10,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import com.careercompass.careercompass.entity.CareerPath;
+import com.careercompass.careercompass.entity.CareerSkill;
+import com.careercompass.careercompass.entity.Company;
+import com.careercompass.careercompass.entity.InterviewExperience;
+import com.careercompass.careercompass.entity.Question;
+import com.careercompass.careercompass.entity.QuestionSet;
+import com.careercompass.careercompass.entity.QuestionType;
+import com.careercompass.careercompass.entity.Skill;
+import com.careercompass.careercompass.entity.User;
+import com.careercompass.careercompass.repository.CareerPathRepository;
+import com.careercompass.careercompass.repository.CareerSkillRepository;
+import com.careercompass.careercompass.repository.CompanyRepository;
+import com.careercompass.careercompass.repository.InterviewExperienceRepository;
+import com.careercompass.careercompass.repository.QuestionRepository;
+import com.careercompass.careercompass.repository.QuestionSetRepository;
+import com.careercompass.careercompass.repository.SkillRepository;
+import com.careercompass.careercompass.repository.UserRepository;
 
 @Configuration
 public class CareerCompassDataInitializer {
@@ -169,9 +184,41 @@ public class CareerCompassDataInitializer {
                                           PasswordEncoder passwordEncoder,
                                           CareerPathRepository careers,
                                           SkillRepository skills) {
-        if (companies.count() > 0) {
-            return;
-        }
+        
+if (companies.count() > 0) {
+
+    Company amazon = findOrCreateCompany(
+            companies,
+            "Amazon",
+            "E-commerce, AWS cloud computing and technology.",
+            "https://www.amazon.jobs/",
+            "Cloud Computing & E-Commerce"
+    );
+
+    Company microsoft = findOrCreateCompany(
+            companies,
+            "Microsoft",
+            "Software, Azure cloud and enterprise technology.",
+            "https://careers.microsoft.com/",
+            "Software & Cloud"
+    );
+
+    Company tcs = findOrCreateCompany(
+            companies,
+            "TCS",
+            "IT services, consulting and enterprise technology.",
+            "https://www.tcs.com/careers",
+            "IT Services & Consulting"
+    );
+
+    seedTcsQuestionSetIfMissing(
+            tcs, questionSets, questions, users,
+            passwordEncoder, careers, skills
+    );
+
+    return;
+}
+
 
         Company google = createCompany(companies, "Google",
                 "Multinational technology leader specializing in search, cloud, AI, and consumer electronics.",
@@ -196,6 +243,14 @@ public class CareerCompassDataInitializer {
         Company adobe = createCompany(companies, "Adobe",
                 "Industry standard in creative media software, digital experience platforms, and document cloud.",
                 "https://www.adobe.com/careers.html", "Digital Media & Cloud");
+        
+        Company tcs = createCompany(
+        companies,
+        "TCS",
+        "IT services, consulting and enterprise technology.",
+        "https://www.tcs.com/careers",
+        "IT Services & Consulting"
+);
 
         User systemUser = users.findByEmail("admin@careercompass.io").orElseGet(() -> {
             User u = new User();
@@ -209,6 +264,11 @@ public class CareerCompassDataInitializer {
         Skill dsaSkill = skills.findByNameIgnoreCase("DSA").orElse(null);
         Skill oopSkill = skills.findByNameIgnoreCase("OOP").orElse(null);
         Skill dbmsSkill = skills.findByNameIgnoreCase("DBMS").orElse(null);
+
+        seedTcsQuestionSetIfMissing(
+        tcs, questionSets, questions, users,
+        passwordEncoder, careers, skills
+); 
 
         QuestionSet dsaSet = new QuestionSet();
         dsaSet.setTitle("Tier-1 DSA & Algorithms Placement Question Set");
@@ -289,6 +349,91 @@ public class CareerCompassDataInitializer {
                 "Key takeaway: Prepare 2-3 genuine project stories aligned with Customer Obsession and Bias for Action.",
                 LocalDate.now().minusMonths(1), "Hard");
     }
+
+private Company findOrCreateCompany(
+        CompanyRepository repo,
+        String name,
+        String description,
+        String website,
+        String industry) {
+
+    return repo.findByNameIgnoreCase(name)
+            .orElseGet(() -> createCompany(
+                    repo, name, description, website, industry
+            ));
+}
+
+private void seedTcsQuestionSetIfMissing(
+        Company tcs,
+        QuestionSetRepository questionSets,
+        QuestionRepository questions,
+        UserRepository users,
+        PasswordEncoder passwordEncoder,
+        CareerPathRepository careers,
+        SkillRepository skills) {
+
+    String title = "TCS General Placement Practice";
+
+    boolean alreadyExists = questionSets
+            .findByCompanyId(tcs.getId())
+            .stream()
+            .anyMatch(set -> title.equals(set.getTitle()));
+
+    if (alreadyExists) {
+        return;
+    }
+
+    User systemUser = users.findByEmail("admin@careercompass.io")
+            .orElseGet(() -> {
+                User user = new User();
+                user.setName("CareerCompass Placement Lead");
+                user.setEmail("admin@careercompass.io");
+                user.setPasswordHash(
+                        passwordEncoder.encode("CompassSecure2026!")
+                );
+                return users.save(user);
+            });
+
+    CareerPath sdeRole = careers.findByName(
+            "Software Development Engineer (SDE)"
+    ).orElse(null);
+
+    Skill dsa = skills.findByNameIgnoreCase("DSA").orElse(null);
+    Skill oop = skills.findByNameIgnoreCase("OOP").orElse(null);
+
+    QuestionSet set = new QuestionSet();
+    set.setTitle(title);
+    set.setCompany(tcs);
+    set.setCareerPath(sdeRole);
+    set.setBranch("Computer Science / IT");
+    set.setBatch("General Practice");
+    set.setDifficulty("Medium");
+    set.setCreatedBy(systemUser);
+
+    questionSets.save(set);
+
+    createQuestion(
+            questions, set, dsa,
+            "Which Java collection stores unique elements without guaranteeing insertion order?\n"
+                    + "A) ArrayList\nB) HashSet\nC) LinkedList\nD) Vector",
+            "B) HashSet. It stores unique elements and does not guarantee iteration order.",
+            "Easy", QuestionType.MCQ
+    );
+
+    createQuestion(
+            questions, set, dsa,
+            "Given an integer array and a target, return the indices of two numbers that add up to the target.",
+            "Use a HashMap to store previously visited values and their indices. Look up target minus the current value. Expected time complexity: O(N).",
+            "Medium", QuestionType.CODING
+    );
+
+    createQuestion(
+            questions, set, oop,
+            "Explain the four pillars of Object-Oriented Programming and how method overriding supports runtime polymorphism in Java.",
+            "The four pillars are encapsulation, abstraction, inheritance and polymorphism. Runtime polymorphism is achieved through method overriding and dynamic method dispatch.",
+            "Medium", QuestionType.TECHNICAL
+    );
+}
 
     private Company createCompany(CompanyRepository repo, String name, String desc, String website, String industry) {
         Company c = new Company();
