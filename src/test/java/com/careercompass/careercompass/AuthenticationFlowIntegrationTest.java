@@ -25,7 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "spring.datasource.url=jdbc:h2:mem:authflowtest;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE",
         "spring.datasource.username=sa",
         "spring.datasource.password=password",
-        "spring.datasource.driver-class-name=org.h2.Driver"
+        "spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.flyway.enabled=false",
+        "spring.jpa.hibernate.ddl-auto=update"
 })
 class AuthenticationFlowIntegrationTest {
 

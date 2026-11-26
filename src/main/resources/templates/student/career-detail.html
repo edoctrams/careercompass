@@ -67,39 +67,10 @@
 
             <!-- Required Technical Skills Breakdown -->
             <div class="card mb-4">
-              <h3 class="card-title mb-3"><i class="fas fa-layer-group text-secondary"></i> Required Technical Skills (Benchmark 1–5)</h3>
-              <div class="grid-2">
-                <div class="card card-elevated p-3">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Data Structures & Algorithms</strong>
-                    <span class="badge badge-purple">Level 5 / 5</span>
-                  </div>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Trees, Graphs, Dynamic Programming, Complexity</p>
-                </div>
-
-                <div class="card card-elevated p-3">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Core Programming (Java / C++)</strong>
-                    <span class="badge badge-purple">Level 5 / 5</span>
-                  </div>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">OOP, Memory management, Collections, Concurrency</p>
-                </div>
-
-                <div class="card card-elevated p-3">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">DBMS & SQL</strong>
-                    <span class="badge badge-blue">Level 4 / 5</span>
-                  </div>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Normalization, Indexing, Transactions (ACID)</p>
-                </div>
-
-                <div class="card card-elevated p-3">
-                  <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Operating Systems & Networks</strong>
-                    <span class="badge badge-blue">Level 3 / 5</span>
-                  </div>
-                  <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Threads, Processes, TCP/IP, Sockets, Memory</p>
-                </div>
+              <h3 class="card-title mb-3"><i class="fas fa-layer-group text-secondary"></i> Curriculum Topics & Subtopics (Benchmark 1–5)</h3>
+              <div class="grid-2" id="career-curriculum-list">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
               </div>
             </div>
 
@@ -178,6 +149,56 @@
 
   <script th:src="@{/js/app.js}"></script>
   <script>
+    (async function loadCareerCurriculum() {
+      const listEl = document.getElementById('career-curriculum-list');
+      const setBtn = document.getElementById('detail-set-target-btn');
+      const role = setBtn ? setBtn.getAttribute('data-role') : null;
+      if (!listEl || !role) return;
+
+      try {
+        const res = await fetch(`/api/careers/curriculum?name=${encodeURIComponent(role)}`);
+        if (!res.ok) {
+          listEl.innerHTML = '<p class="text-secondary">Curriculum details unavailable for this role.</p>';
+          return;
+        }
+        const data = await res.json();
+        const skills = data.skills || [];
+        if (skills.length === 0) {
+          listEl.innerHTML = '<p class="text-secondary">No curriculum skills mapped yet.</p>';
+          return;
+        }
+
+        const topics = skills.filter(s => s.nodeType === 'TOPIC');
+        const subtopicsByParent = {};
+        skills.filter(s => s.nodeType === 'SUBTOPIC').forEach(sub => {
+          const key = sub.parentSkillName || 'Other';
+          if (!subtopicsByParent[key]) subtopicsByParent[key] = [];
+          subtopicsByParent[key].push(sub);
+        });
+
+        listEl.innerHTML = '';
+        const displayItems = topics.length > 0 ? topics : skills;
+        displayItems.forEach(item => {
+          const subs = subtopicsByParent[item.name] || [];
+          const card = document.createElement('div');
+          card.className = 'card card-elevated p-3';
+          const subsHtml = subs.length > 0
+            ? subs.map(s => `<span class="badge badge-gray" style="margin: 0.15rem;">${s.name} (L${s.requiredLevel})</span>`).join('')
+            : `<span style="font-size: 0.75rem; color: var(--text-muted);">${item.category || 'Core'}</span>`;
+          card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+              <strong style="color: var(--text-main); font-size: 0.9rem;">${item.name}</strong>
+              <span class="badge badge-purple">Level ${item.requiredLevel} / 5</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">${subsHtml}</div>
+          `;
+          listEl.appendChild(card);
+        });
+      } catch (e) {
+        console.warn('Could not load career curriculum:', e);
+      }
+    })();
+
     const setBtn = document.getElementById('detail-set-target-btn');
     if (setBtn) {
       setBtn.addEventListener('click', async function () {

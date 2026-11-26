@@ -42,9 +42,9 @@
           <select id="filter-role" class="form-select">
             <option value="">All Career Streams</option>
             <option value="Software Development Engineer (SDE)">SDE</option>
+            <option value="Full Stack Developer">Full Stack Developer</option>
             <option value="Data Analyst">Data Analyst</option>
             <option value="AI/ML Engineer">AI/ML Engineer</option>
-            <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
           </select>
 
           <input type="text" id="filter-topic"
@@ -68,6 +68,14 @@
           </select>
 
         </div>
+      </div>
+
+      <div id="attempts-summary-banner" class="card p-3 mb-3" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <strong>Practice Progress</strong>
+          <span class="text-secondary ms-2" id="attempts-summary-text">Loading practice summary...</span>
+        </div>
+        <span class="badge badge-green" id="attempts-accuracy-badge">Accuracy: --%</span>
       </div>
 
       <div id="question-source-note" class="card p-3 mb-3">

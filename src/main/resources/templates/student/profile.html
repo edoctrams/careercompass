@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+  <meta charset="UTF-8" />
+  <title>Career Compass - Profile</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Profile — Career Compass</title>
@@ -8,9 +13,69 @@
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
+  <header th:replace="fragments :: header"></header>
+  <main class="pt-5">
+    <div class="container px-4 px-lg-5">
+      <div class="row">
+        <div class="col-md-3 col-lg-2">
+          <div class="sidebar-bg" th:replace="fragments :: sidebar"></div>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <div class="profile-content">
+            <h2 class="mb-4">Student Profile</h2>
+            <div class="card bg-dark rounded-4 p-4" style="border: 1px solid #333;">
+              <h3 class="text-primary mb-3">Profile Information</h3>
+              <form>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Full Name</label>
+                    <input type="text" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Email</label>
+                    <input type="email" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Branch</label>
+                    <input type="text" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Graduation Year</label>
+                    <input type="number" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Current Year</label>
+                    <input type="number" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Daily Study Hours</label>
+                    <input type="number" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Target Role</label>
+                    <select class="form-control bg-secondary text-white" readonly>
+                      <option>Select Career Path</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label mb-1" style="color: #fff;">Career Goal</label>
+                    <input type="text" class="form-control bg-secondary text-white" readonly />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+  </main>
+  <footer th:replace="fragments :: footer"></footer>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/fontawesome.min.js}"></script>
   <div class="app-container">
     <!-- Sidebar Fragment -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
@@ -21,35 +86,42 @@
 
       <!-- Main Content Area -->
       <div class="content-area">
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+        <div class="page-header"
+          style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h1 class="page-title">Student Profile & Academic Records</h1>
-            <p class="page-subtitle">Manage your personal details, academic timeline, target career aspiration, and daily study target</p>
+            <p class="page-subtitle">Manage your personal details, academic timeline, target career aspiration, and
+              daily study target</p>
           </div>
           <div>
-            <button type="button" class="btn btn-primary" onclick="window.openModal('edit-profile-modal')">
+            <button class="btn btn-primary" onclick="window.openModal('edit-profile-modal')">
               <i class="fas fa-user-edit me-1"></i> Edit Profile Information
             </button>
           </div>
         </div>
 
         <!-- Profile Hero Banner -->
-        <div class="card mb-4 p-4" style="background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 100%); border: 1px solid var(--primary-border); box-shadow: var(--shadow-sm);">
+        <div class="card card-glow mb-4 p-4"
+          style="background: linear-gradient(135deg, rgba(21, 30, 50, 0.95), rgba(27, 39, 64, 0.9)); border: 1px solid rgba(116, 103, 240, 0.3);">
           <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-            <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: white; box-shadow: var(--shadow-sm);"
-                 th:text="${currentUserName != null && !currentUserName.isEmpty() ? #strings.substring(currentUserName, 0, 1).toUpperCase() : 'S'}">
+            <div
+              style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: white; box-shadow: 0 4px 16px rgba(116, 103, 240, 0.5);"
+              th:text="${currentUserName != null && !currentUserName.isEmpty() ? #strings.substring(currentUserName, 0, 1).toUpperCase() : 'S'}">
               S
             </div>
             <div>
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin: 0;" th:text="${currentUserName != null ? currentUserName : 'Student User'}">
+                <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin: 0;"
+                  th:text="${currentUserName != null ? currentUserName : 'Student User'}">
                   Parth Kapoor
                 </h2>
-                <span class="badge badge-purple" th:text="${studentProfile != null && studentProfile.targetRoleName != null ? studentProfile.targetRoleName : 'Software Development Engineer (SDE)'}">
+                <span class="badge badge-purple"
+                  th:text="${studentProfile != null && studentProfile.targetRoleName != null ? studentProfile.targetRoleName : 'Software Development Engineer (SDE)'}">
                   Software Development Engineer
                 </span>
               </div>
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;" th:text="${currentUserEmail != null ? currentUserEmail : 'student@campus.edu'}">
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;"
+                th:text="${currentUserEmail != null ? currentUserEmail : 'student@campus.edu'}">
                 student@campus.edu
               </p>
             </div>
@@ -60,27 +132,41 @@
           <!-- Left Column: Academic & Preparation Info -->
           <div>
             <div class="card mb-4">
-              <h3 class="card-title mb-3"><i class="fas fa-university text-primary"></i> Academic & Study Parameters</h3>
+              <h3 class="card-title mb-3"><i class="fas fa-university text-primary"></i> Academic & Study Parameters
+              </h3>
               <div style="font-size: 0.9rem; line-height: 2.2;">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.4rem 0;">
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding: 0.4rem 0;">
                   <span style="color: var(--text-muted);">Engineering Branch / Major:</span>
-                  <strong style="color: var(--text-main);" th:text="${studentProfile != null && studentProfile.branch != null ? studentProfile.branch : 'Computer Engineering'}">Computer Engineering</strong>
+                  <strong style="color: var(--text-primary);"
+                    th:text="${studentProfile != null && studentProfile.branch != null ? studentProfile.branch : 'Computer Engineering'}">Computer
+                    Engineering</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.4rem 0;">
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding: 0.4rem 0;">
                   <span style="color: var(--text-muted);">Graduation Batch:</span>
-                  <strong style="color: var(--text-main);" th:text="${studentProfile != null && studentProfile.graduationYear != null ? studentProfile.graduationYear : '2026'}">2026</strong>
+                  <strong style="color: var(--text-primary);"
+                    th:text="${studentProfile != null && studentProfile.graduationYear != null ? studentProfile.graduationYear : '2026'}">2026</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.4rem 0;">
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding: 0.4rem 0;">
                   <span style="color: var(--text-muted);">Current Academic Year:</span>
-                  <strong style="color: var(--text-main);" th:text="${studentProfile != null && studentProfile.currentYear != null ? studentProfile.currentYear + 'rd Year' : '3rd Year'}">3rd Year</strong>
+                  <strong style="color: var(--text-primary);"
+                    th:text="${studentProfile != null && studentProfile.currentYear != null ? studentProfile.currentYear + 'rd Year' : '3rd Year'}">3rd
+                    Year</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 0.4rem 0;">
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding: 0.4rem 0;">
                   <span style="color: var(--text-muted);">Daily Study Commitment:</span>
-                  <span class="badge badge-blue" th:text="${studentProfile != null && studentProfile.dailyAvailableHours != null ? studentProfile.dailyAvailableHours + ' Hours / Day' : '3.5 Hours / Day'}">3.5 Hours / Day</span>
+                  <span class="badge badge-blue"
+                    th:text="${studentProfile != null && studentProfile.dailyAvailableHours != null ? studentProfile.dailyAvailableHours + ' Hours / Day' : '3.5 Hours / Day'}">3.5
+                    Hours / Day</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; padding: 0.4rem 0;">
                   <span style="color: var(--text-muted);">Target Career Track:</span>
-                  <strong style="color: var(--primary);" th:text="${studentProfile != null && studentProfile.targetRoleName != null ? studentProfile.targetRoleName : 'Software Development Engineer (SDE)'}">Software Development Engineer (SDE)</strong>
+                  <strong style="color: var(--accent-secondary);"
+                    th:text="${studentProfile != null && studentProfile.targetRoleName != null ? studentProfile.targetRoleName : 'Software Development Engineer (SDE)'}">Software
+                    Development Engineer (SDE)</strong>
                 </div>
               </div>
             </div>
@@ -89,8 +175,9 @@
             <div class="card">
               <h3 class="card-title mb-2"><i class="fas fa-bullseye text-warning"></i> Primary Career Goal</h3>
               <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;"
-                 th:text="${studentProfile != null && studentProfile.careerGoal != null && !studentProfile.careerGoal.isEmpty() ? studentProfile.careerGoal : 'Secure a Tier-1 Product Engineer offer at Google, Amazon, or Microsoft during the upcoming campus placement season.'}">
-                Secure a Tier-1 Product Engineer offer at Google, Amazon, or Microsoft during the upcoming campus placement season.
+                th:text="${studentProfile != null && studentProfile.careerGoal != null && !studentProfile.careerGoal.isEmpty() ? studentProfile.careerGoal : 'Secure a Tier-1 Product Engineer offer at Google, Amazon, or Microsoft during the upcoming campus placement season.'}">
+                Secure a Tier-1 Product Engineer offer at Google, Amazon, or Microsoft during the upcoming campus
+                placement season.
               </p>
             </div>
           </div>
@@ -100,13 +187,13 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-sliders-h text-secondary"></i> Assessed Skills</h3>
-                <a href="/skill-assessment" style="font-size: 0.8rem; font-weight: 600;">Re-assess</a>
+                <a href="/skill-assessment" style="font-size: 0.8rem;">Re-assess</a>
               </div>
 
               <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                 <div class="card card-elevated p-3">
                   <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Java Core & OOP</strong>
+                    <strong style="color: var(--text-primary); font-size: 0.9rem;">Java Core & OOP</strong>
                     <span class="badge badge-green">Level 4 / 5</span>
                   </div>
                   <div class="progress-container">
@@ -116,7 +203,7 @@
 
                 <div class="card card-elevated p-3">
                   <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Data Structures (DSA)</strong>
+                    <strong style="color: var(--text-primary); font-size: 0.9rem;">Data Structures (DSA)</strong>
                     <span class="badge badge-purple">Level 3 / 5</span>
                   </div>
                   <div class="progress-container">
@@ -126,7 +213,7 @@
 
                 <div class="card card-elevated p-3">
                   <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Relational DBMS & SQL</strong>
+                    <strong style="color: var(--text-primary); font-size: 0.9rem;">Relational DBMS & SQL</strong>
                     <span class="badge badge-yellow">Level 3 / 5</span>
                   </div>
                   <div class="progress-container">
@@ -136,7 +223,7 @@
 
                 <div class="card card-elevated p-3">
                   <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                    <strong style="color: var(--text-main); font-size: 0.9rem;">Operating Systems</strong>
+                    <strong style="color: var(--text-primary); font-size: 0.9rem;">Operating Systems</strong>
                     <span class="badge badge-green">Level 3 / 5</span>
                   </div>
                   <div class="progress-container">
@@ -159,7 +246,7 @@
     <div class="modal-dialog">
       <div class="modal-header">
         <h3 class="modal-title">Edit Student Profile</h3>
-        <button type="button" class="modal-close-btn" onclick="window.closeModal('edit-profile-modal')">&times;</button>
+        <button class="modal-close-btn" onclick="window.closeModal('edit-profile-modal')">&times;</button>
       </div>
       <div class="modal-body">
         <form id="edit-profile-form">
@@ -202,24 +289,22 @@
               <label class="form-label">Target Role</label>
               <select id="edit-target-role" class="form-select">
                 <option value="Software Development Engineer (SDE)">Software Development Engineer (SDE)</option>
-                <option value="Backend Developer">Backend Developer</option>
-                <option value="Frontend Developer">Frontend Developer</option>
                 <option value="Full Stack Developer">Full Stack Developer</option>
                 <option value="AI/ML Engineer">AI/ML Engineer</option>
-                <option value="Data Scientist">Data Scientist</option>
                 <option value="Data Analyst">Data Analyst</option>
-                <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Career Goal Description</label>
-            <textarea id="edit-goal" class="form-control" style="min-height: 80px;" placeholder="Describe your placement aspirations..."></textarea>
+            <textarea id="edit-goal" class="form-control" style="min-height: 80px;"
+              placeholder="Describe your placement aspirations..."></textarea>
           </div>
 
           <div class="modal-footer" style="padding-right: 0; padding-bottom: 0;">
-            <button type="button" class="btn btn-secondary" onclick="window.closeModal('edit-profile-modal')">Cancel</button>
+            <button type="button" class="btn btn-secondary"
+              onclick="window.closeModal('edit-profile-modal')">Cancel</button>
             <button type="submit" class="btn btn-primary">Save Profile Updates</button>
           </div>
         </form>
@@ -231,7 +316,7 @@
   <script>
     const profileForm = document.getElementById('edit-profile-form');
     if (profileForm) {
-      profileForm.addEventListener('submit', async function(e) {
+      profileForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         const payload = {
           name: document.getElementById('edit-name').value.trim(),
@@ -255,11 +340,12 @@
           } else {
             window.showToast('Failed to save profile changes.', 'error');
           }
-        } catch(err) {
+        } catch (err) {
           window.showToast('Error updating profile: ' + err.message, 'error');
         }
       });
     }
   </script>
 </body>
+
 </html>

@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const CAREER_STREAMS = [
     'Software Development Engineer (SDE)',
-    'Data Analyst',
+    'Full Stack Developer',
     'AI/ML Engineer',
-    'Cybersecurity Engineer'
+    'Data Analyst'
   ];
 
   const onboardingData = {
