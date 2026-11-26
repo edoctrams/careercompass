@@ -34,6 +34,7 @@ public class QuestionSet {
     @Column(name = "difficulty", nullable = true, length = 40)
     private String difficulty;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "created_by_id", nullable = false)
     private User createdBy;

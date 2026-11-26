@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CompanyCareerSkillRepository extends JpaRepository<CompanyCareerSkill, Long> {
+    List<CompanyCareerSkill> findByCompanyId(Long companyId);
     List<CompanyCareerSkill> findByCompanyIdAndCareerPathId(Long companyId, Long careerPathId);
     List<CompanyCareerSkill> findByCareerPathId(Long careerPathId);
     Optional<CompanyCareerSkill> findByCompanyIdAndCareerPathIdAndSkillId(Long companyId, Long careerPathId, Long skillId);

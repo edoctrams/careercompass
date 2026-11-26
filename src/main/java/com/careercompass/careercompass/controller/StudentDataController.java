@@ -83,6 +83,9 @@ public class StudentDataController {
     @Autowired
     private QuestionCompanyRepository questionCompanyRepository;
 
+    @Autowired
+    private LearningResourceRepository learningResourceRepository;
+
     private User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
@@ -209,17 +212,23 @@ public class StudentDataController {
         List<CareerSkill> careerSkills = careerSkillRepository.findByCareerPathId(career.getId());
         List<Map<String, Object>> items = careerSkills.stream().map(cs -> {
             Skill s = cs.getSkill();
+            Skill prereq = cs.getPrerequisiteSkill();
             CompanyCareerSkill ccs = companyOverrides.get(s.getId());
             Map<String, Object> item = new LinkedHashMap<>();
             item.put("id", s.getId());
             item.put("name", s.getName());
             item.put("category", s.getCategory());
+            item.put("description", s.getDescription());
+            item.put("difficulty", s.getDifficulty());
             item.put("nodeType", s.getNodeType());
             item.put("parentSkillId", s.getParentSkill() != null ? s.getParentSkill().getId() : null);
             item.put("parentSkillName", s.getParentSkill() != null ? s.getParentSkill().getName() : null);
+            item.put("prerequisiteSkillId", prereq != null ? prereq.getId() : null);
+            item.put("prerequisiteSkillName", prereq != null ? prereq.getName() : null);
             item.put("requiredLevel", cs.getRequiredLevel());
             item.put("importance", cs.getImportance());
             item.put("companyTargetLevel", ccs != null ? ccs.getTargetLevel() : null);
+            item.put("companyImportance", ccs != null ? ccs.getImportance() : null);
             item.put("evidenceType", ccs != null ? ccs.getEvidenceType() : null);
             return item;
         }).collect(Collectors.toList());
@@ -257,6 +266,87 @@ public class StudentDataController {
         response.put("company", company);
         response.put("questionSets", questionSets);
         response.put("experiences", experiences);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/companies/preparation")
+    @Transactional(readOnly = true)
+    public ResponseEntity<Map<String, Object>> getCompanyPreparation(
+            @RequestParam String name,
+            @RequestParam(required = false) String careerPathName) {
+        Optional<Company> companyOpt = companyRepository.findByNameIgnoreCase(name.trim());
+        if (companyOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Company company = companyOpt.get();
+
+        User user = getCurrentUser();
+        CareerPath resolvedCareer = null;
+        if (careerPathName != null && !careerPathName.isBlank()) {
+            resolvedCareer = careerPathRepository.findByName(careerPathName.trim()).orElse(null);
+        } else if (user != null) {
+            resolvedCareer = studentProfileRepository.findByUserId(user.getId())
+                    .map(StudentProfile::getTargetRole)
+                    .orElse(null);
+        }
+
+        Map<Long, Integer> userProficiencies = new HashMap<>();
+        if (user != null) {
+            for (UserSkill us : userSkillRepository.findByUserId(user.getId())) {
+                userProficiencies.put(us.getSkill().getId(), us.getProficiency());
+            }
+        }
+
+        List<CompanyCareerSkill> companySkills = resolvedCareer != null
+                ? companyCareerSkillRepository.findByCompanyIdAndCareerPathId(company.getId(), resolvedCareer.getId())
+                : companyCareerSkillRepository.findByCompanyId(company.getId());
+
+        List<Map<String, Object>> focusSkills = companySkills.stream()
+                .sorted(Comparator.comparingInt(CompanyCareerSkill::getImportance).reversed()
+                        .thenComparing(ccs -> ccs.getSkill().getName()))
+                .map(ccs -> {
+                    Skill s = ccs.getSkill();
+                    int current = userProficiencies.getOrDefault(s.getId(), 0);
+                    int target = ccs.getTargetLevel() != null ? ccs.getTargetLevel() : 4;
+                    Map<String, Object> item = new LinkedHashMap<>();
+                    item.put("skillId", s.getId());
+                    item.put("skillName", s.getName());
+                    item.put("category", s.getCategory());
+                    item.put("nodeType", s.getNodeType());
+                    item.put("careerPathName", ccs.getCareerPath().getName());
+                    item.put("targetLevel", target);
+                    item.put("currentLevel", current);
+                    item.put("skillGap", Math.max(0, target - current));
+                    item.put("importance", ccs.getImportance());
+                    item.put("evidenceType", ccs.getEvidenceType());
+                    item.put("sourceUrl", ccs.getSourceUrl());
+                    return item;
+                })
+                .collect(Collectors.toList());
+
+        List<InterviewExperience> experiences = interviewExperienceRepository.findByCompanyId(company.getId());
+        List<Map<String, Object>> experienceDtos = experiences.stream().map(exp -> {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("id", exp.getId());
+            map.put("companyName", company.getName());
+            map.put("role", exp.getRole());
+            map.put("batch", exp.getBatch());
+            map.put("experienceText", exp.getExperienceText());
+            map.put("difficulty", exp.getDifficulty());
+            map.put("interviewDate", exp.getInterviewDate());
+            map.put("candidateName", exp.getUser() != null ? exp.getUser().getName() : "Anonymous");
+            return map;
+        }).collect(Collectors.toList());
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("companyId", company.getId());
+        response.put("companyName", company.getName());
+        response.put("industry", company.getIndustry());
+        response.put("description", company.getDescription());
+        response.put("website", company.getWebsite());
+        response.put("selectedCareerPathName", resolvedCareer != null ? resolvedCareer.getName() : null);
+        response.put("focusSkills", focusSkills);
+        response.put("experiences", experienceDtos);
         return ResponseEntity.ok(response);
     }
 
@@ -658,6 +748,74 @@ public class StudentDataController {
                 .comparing(RoadmapTask::getWeekNumber, Comparator.nullsLast(Integer::compareTo))
                 .thenComparing(RoadmapTask::getId));
 
+        Map<Long, Integer> userProficiencies = userSkillRepository.findByUserId(user.getId()).stream()
+                .collect(Collectors.toMap(us -> us.getSkill().getId(), UserSkill::getProficiency, (a, b) -> b));
+        Map<Long, CareerSkill> careerSkillMap = careerSkillRepository.findByCareerPathId(currentRoadmap.getCareerPath().getId()).stream()
+                .collect(Collectors.toMap(cs -> cs.getSkill().getId(), cs -> cs, (a, b) -> a));
+        Map<Long, CompanyCareerSkill> companySkillMap = new HashMap<>();
+        if (currentRoadmap.getCompany() != null) {
+            for (CompanyCareerSkill ccs : companyCareerSkillRepository.findByCompanyIdAndCareerPathId(
+                    currentRoadmap.getCompany().getId(), currentRoadmap.getCareerPath().getId())) {
+                companySkillMap.put(ccs.getSkill().getId(), ccs);
+            }
+        }
+        Map<Long, List<LearningResource>> resourcesBySkillId = learningResourceRepository.findAll().stream()
+                .collect(Collectors.groupingBy(lr -> lr.getSkill().getId()));
+
+        List<Map<String, Object>> taskDtos = tasks.stream().map(t -> {
+            Map<String, Object> dto = new LinkedHashMap<>();
+            dto.put("id", t.getId());
+            dto.put("title", t.getTitle());
+            dto.put("description", t.getDescription());
+            dto.put("weekNumber", t.getWeekNumber());
+            dto.put("estimatedHours", t.getEstimatedHours());
+            dto.put("resourceUrl", t.getResourceUrl());
+            dto.put("status", t.getStatus().name());
+
+            Skill skill = t.getSkill();
+            if (skill != null) {
+                CareerSkill cs = careerSkillMap.get(skill.getId());
+                CompanyCareerSkill ccs = companySkillMap.get(skill.getId());
+                int currentLevel = userProficiencies.getOrDefault(skill.getId(), 0);
+                int baseRequired = cs != null && cs.getRequiredLevel() != null ? cs.getRequiredLevel() : 3;
+                int requiredLevel = Math.max(baseRequired, ccs != null && ccs.getTargetLevel() != null ? ccs.getTargetLevel() : 0);
+                int baseImportance = cs != null && cs.getImportance() != null ? cs.getImportance() : 3;
+                int importance = Math.max(baseImportance, ccs != null && ccs.getImportance() != null ? ccs.getImportance() : 0);
+                int gap = Math.max(0, requiredLevel - currentLevel);
+                boolean companyTargeted = ccs != null;
+                int priorityScore = (gap * 3) + importance + (companyTargeted ? 1 : 0);
+                double weightedPriority = Math.round(((0.50 * (gap / 5.0)) + (0.30 * (importance / 5.0)) + (0.20 * (companyTargeted ? 1.0 : 0.0))) * 100.0);
+
+                dto.put("skillId", skill.getId());
+                dto.put("skillName", skill.getName());
+                dto.put("category", skill.getCategory());
+                dto.put("nodeType", skill.getNodeType());
+                dto.put("currentLevel", currentLevel);
+                dto.put("requiredLevel", requiredLevel);
+                dto.put("skillGap", gap);
+                dto.put("importance", importance);
+                dto.put("companyTargeted", companyTargeted);
+                dto.put("priorityScore", priorityScore);
+                dto.put("weightedPriorityPercent", (int) weightedPriority);
+                dto.put("priorityLabel", gap >= 3 || priorityScore >= 12 ? "High Priority" : (gap >= 1 ? "Medium Priority" : "Reinforcement"));
+
+                Skill prereq = cs != null ? cs.getPrerequisiteSkill() : null;
+                dto.put("prerequisiteSkillName", prereq != null ? prereq.getName() : null);
+
+                List<Map<String, Object>> resList = resourcesBySkillId.getOrDefault(skill.getId(), Collections.emptyList())
+                        .stream().limit(3).map(lr -> {
+                            Map<String, Object> r = new LinkedHashMap<>();
+                            r.put("title", lr.getTitle());
+                            r.put("url", lr.getResourceUrl());
+                            r.put("type", lr.getResourceType());
+                            r.put("provider", lr.getProvider());
+                            return r;
+                        }).collect(Collectors.toList());
+                dto.put("resources", resList);
+            }
+            return dto;
+        }).collect(Collectors.toList());
+
         long completedCount = tasks.stream().filter(t -> t.getStatus() == RoadmapTaskStatus.COMPLETED).count();
         double progressPercentage = tasks.isEmpty() ? 0 : ((double) completedCount / tasks.size()) * 100.0;
 
@@ -673,7 +831,7 @@ public class StudentDataController {
         response.put("progressPercentage", Math.round(progressPercentage));
         response.put("totalTasks", tasks.size());
         response.put("completedTasks", completedCount);
-        response.put("tasks", tasks);
+        response.put("tasks", taskDtos);
 
         return ResponseEntity.ok(response);
     }

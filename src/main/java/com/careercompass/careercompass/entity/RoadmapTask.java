@@ -14,6 +14,7 @@ public class RoadmapTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "roadmap_id", nullable = false)
     private Roadmap roadmap;

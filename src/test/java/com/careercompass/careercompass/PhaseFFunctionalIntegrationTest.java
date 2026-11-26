@@ -379,6 +379,29 @@ class PhaseFFunctionalIntegrationTest {
         // Company target level (5) reflected on dependent task title
         assertTrue(tasks.get(1).getTitle().contains("-> 5"));
 
+        // Verify /api/roadmaps/current returns structured gap, priorityScore, prerequisiteSkillName, resources and does NOT leak passwordHash
+        MvcResult currentRoadmapRes = mockMvc.perform(get("/api/roadmaps/current")
+                        .session(session))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.hasRoadmap").value(true))
+                .andExpect(jsonPath("$.tasks[0].skillGap").value(3))
+                .andExpect(jsonPath("$.tasks[0].priorityScore").isNumber())
+                .andExpect(jsonPath("$.tasks[0].resources[0].url").value("https://docs.oracle.com/en/java/"))
+                .andExpect(jsonPath("$.tasks[1].prerequisiteSkillName").value(prereqSkill.getName()))
+                .andReturn();
+        assertFalse(currentRoadmapRes.getResponse().getContentAsString().contains("passwordHash"));
+
+        // Verify /api/companies/preparation returns focus skills with gaps for target company
+        mockMvc.perform(get("/api/companies/preparation")
+                        .session(session)
+                        .param("name", amazon.getName())
+                        .param("careerPathName", sde.getName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyName").value(amazon.getName()))
+                .andExpect(jsonPath("$.focusSkills[0].skillName").value(dependentSkill.getName()))
+                .andExpect(jsonPath("$.focusSkills[0].targetLevel").value(5))
+                .andExpect(jsonPath("$.focusSkills[0].skillGap").value(4));
+
         // Mark first task COMPLETED
         Long completedTaskId = tasks.get(0).getId();
         mockMvc.perform(post("/api/roadmaps/tasks/" + completedTaskId + "/status")

@@ -21,6 +21,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true, length = 254)
     private String email;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @NotBlank
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;

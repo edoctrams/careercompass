@@ -1,5 +1,5 @@
 /**
- * Career Compass - Interactive Question Bank & Practice Attempts
+ * Career Compass - Company & Topic Question Bank
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,13 +13,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const typeFilter = document.getElementById('filter-type');
   const searchInput = document.getElementById('question-search');
 
-  const requestedCompany = new URLSearchParams(window.location.search).get('company');
-  if (
-    requestedCompany &&
-    companyFilter &&
-    [...companyFilter.options].some(option => option.value === requestedCompany)
-  ) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const requestedCompany = urlParams.get('company');
+  const requestedTopic = urlParams.get('topic');
+  const requestedRole = urlParams.get('role');
+
+  if (requestedCompany && companyFilter && [...companyFilter.options].some(o => o.value === requestedCompany)) {
     companyFilter.value = requestedCompany;
+  }
+  if (requestedRole && roleFilter && [...roleFilter.options].some(o => o.value === requestedRole)) {
+    roleFilter.value = requestedRole;
   }
 
   function addText(parent, tag, value, className = '') {
@@ -50,6 +53,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function populateTopicDropdown(questions) {
+    if (!topicFilter || topicFilter.tagName !== 'SELECT') return;
+    const currentVal = topicFilter.value || requestedTopic || '';
+    const topics = new Set();
+    questions.forEach(q => {
+      if (q.skillName) topics.add(q.skillName);
+      (q.subtopics || []).forEach(s => {
+        if (s.name) topics.add(s.name);
+      });
+    });
+
+    const sortedTopics = [...topics].sort((a, b) => a.localeCompare(b));
+    topicFilter.innerHTML = '<option value="">All Topics & Subtopics</option>';
+    sortedTopics.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      topicFilter.appendChild(opt);
+    });
+
+    if (currentVal && sortedTopics.some(t => t.toLowerCase() === currentVal.toLowerCase())) {
+      const match = sortedTopics.find(t => t.toLowerCase() === currentVal.toLowerCase());
+      topicFilter.value = match;
+    }
+  }
+
   async function loadQuestions() {
     try {
       const params = new URLSearchParams();
@@ -65,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       allQuestions = await response.json();
+      populateTopicDropdown(allQuestions);
       renderQuestions();
     } catch (error) {
       console.error(error);
@@ -79,11 +109,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const search = (searchInput ? searchInput.value : '').toLowerCase().trim();
 
     const filtered = allQuestions.filter(q => {
-      const subtopicNames = (q.subtopics || []).map(s => s.name).join(' ');
+      const subtopicNames = (q.subtopics || []).map(s => s.name);
       const companyNames = (q.companies || []).map(c => c.name).join(' ');
-      const topicHaystack = `${q.skillName || ''} ${subtopicNames}`.toLowerCase();
+      const topicHaystack = `${q.skillName || ''} ${subtopicNames.join(' ')}`.toLowerCase();
 
-      const matchesTopic = !topic || topicHaystack.includes(topic);
+      const matchesTopic = !topic ||
+        (q.skillName && q.skillName.toLowerCase() === topic) ||
+        subtopicNames.some(sn => sn.toLowerCase() === topic) ||
+        topicHaystack.includes(topic);
       const matchesSearch = !search ||
         (q.questionText || '').toLowerCase().includes(search) ||
         topicHaystack.includes(search) ||
@@ -119,7 +152,10 @@ document.addEventListener('DOMContentLoaded', function () {
           addText(leftBadges, 'strong', `${c.name} (${c.evidenceType || 'GENERAL'})`, 'badge badge-purple');
         });
       } else {
-        addText(leftBadges, 'strong', q.careerPathName || 'General Prep', 'badge badge-purple');
+        addText(leftBadges, 'strong', q.careerPathName || 'General Practice', 'badge badge-purple');
+      }
+      if (q.skillName) {
+        addText(leftBadges, 'span', q.skillName, 'badge badge-yellow');
       }
       addText(leftBadges, 'span', q.questionType, 'badge badge-blue');
       addText(leftBadges, 'span', q.difficulty || 'Unspecified', 'badge badge-gray');
@@ -136,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
       addText(
         card,
         'p',
-        `Career: ${q.careerPathName || 'General'} | Subtopics: ${subtopicText}`,
+        `Career Stream: ${q.careerPathName || 'General'} | Topic: ${q.skillName || 'General'} | Subtopics: ${subtopicText}`,
         'text-secondary'
       );
 
@@ -250,9 +286,13 @@ document.addEventListener('DOMContentLoaded', function () {
     .filter(Boolean)
     .forEach(control => control.addEventListener('change', loadQuestions));
 
-  [topicFilter, searchInput]
-    .filter(Boolean)
-    .forEach(control => control.addEventListener('input', renderQuestions));
+  if (topicFilter) {
+    topicFilter.addEventListener('change', renderQuestions);
+    topicFilter.addEventListener('input', renderQuestions);
+  }
+  if (searchInput) {
+    searchInput.addEventListener('input', renderQuestions);
+  }
 
   loadAttemptsSummary();
   loadQuestions();

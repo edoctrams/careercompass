@@ -12,21 +12,27 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Sidebar Fragment -->
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
     <div class="main-wrapper">
-      <!-- Header Fragment -->
       <div th:replace="~{fragments/header :: header}"></div>
 
-      <!-- Main Content Area -->
       <div class="content-area">
         <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h1 class="page-title">Personalized Skill Gap Assessment</h1>
-            <p class="page-subtitle">Rate your proficiency from 0 to 5 to generate your real skill gaps against your target career role</p>
+            <p class="page-subtitle">Rate your proficiency from 0 to 5 on the topics required for your selected career stream</p>
           </div>
-          <div style="display: flex; gap: 0.75rem; align-items: center;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <div style="min-width: 240px;">
+              <label for="assessment-career-select" style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.2rem;">Target Career Stream</label>
+              <select id="assessment-career-select" class="form-select">
+                <option value="Software Development Engineer (SDE)">Software Development Engineer (SDE)</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="AI/ML Engineer">AI/ML Engineer</option>
+                <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
+              </select>
+            </div>
             <div class="card p-2 px-3 text-center" style="background: var(--bg-surface); border: 1px solid var(--border);">
               <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Skills Rated</span>
               <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);" id="assessed-count">0</div>
@@ -52,346 +58,34 @@
           </div>
         </div>
 
-        <!-- Category Tabs -->
+        <!-- Dynamic Career Curriculum Skills -->
         <div class="tabs-wrapper mb-4">
-          <div class="tabs-nav">
-            <button type="button" class="tab-btn active" data-tab="tab-cs">Computer Science & DSA</button>
-            <button type="button" class="tab-btn" data-tab="tab-prog">Programming Languages</button>
-            <button type="button" class="tab-btn" data-tab="tab-web">Web & Backend</button>
-            <button type="button" class="tab-btn" data-tab="tab-data">Data & Databases</button>
-            <button type="button" class="tab-btn" data-tab="tab-tools">Tools & Security</button>
+          <div class="tabs-nav" id="skill-category-tabs">
+            <button type="button" class="tab-btn active" data-category="ALL">All Career Topics</button>
           </div>
 
-          <!-- TAB 1: CS & DSA -->
-          <div class="tab-pane active" id="tab-cs">
-            <div class="grid-2">
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="DSA">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Data Structures & Algorithms (DSA)</strong>
-                    <span class="badge badge-purple ms-2">Core CS</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 5</span>
+          <div id="dynamic-skills-grid" class="grid-2">
+            <!-- Dynamically populated by assessment.js from /api/careers/curriculum -->
+            <div class="card card-elevated p-4 skill-rating-card" data-skill-name="DSA">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <div>
+                  <strong style="color: var(--text-main); font-size: 1.05rem;">Data Structures & Algorithms (DSA)</strong>
+                  <span class="badge badge-purple ms-2">Computer Science</span>
                 </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Arrays, linked lists, binary trees, heaps, dynamic programming, complexity analysis.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
+                <span class="badge badge-yellow">Target: Lvl 5</span>
               </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="OOP">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Object-Oriented Programming (OOP)</strong>
-                    <span class="badge badge-purple ms-2">Core CS</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Encapsulation, inheritance, runtime polymorphism, design patterns, SOLID principles.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Arrays, linked lists, trees, graphs, dynamic programming and complexity analysis.
+              </p>
+              <div class="proficiency-selector mb-2">
+                <div class="level-pill" data-level="0">0</div>
+                <div class="level-pill" data-level="1">1</div>
+                <div class="level-pill" data-level="2">2</div>
+                <div class="level-pill" data-level="3">3</div>
+                <div class="level-pill" data-level="4">4</div>
+                <div class="level-pill" data-level="5">5</div>
               </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Operating Systems">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Operating Systems</strong>
-                    <span class="badge badge-purple ms-2">Core CS</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 3</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Process scheduling, virtual memory, threads, synchronization, deadlocks, file systems.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Computer Networks">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Computer Networks</strong>
-                    <span class="badge badge-purple ms-2">Core CS</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 3</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  OSI Model, TCP/IP, 3-way handshake, HTTP/HTTPS, DNS, routing protocols, sockets.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 2: PROGRAMMING LANGUAGES -->
-          <div class="tab-pane" id="tab-prog">
-            <div class="grid-2">
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Java">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Java</strong>
-                    <span class="badge badge-blue ms-2">Programming</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 5</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Core syntax, JVM architecture, Garbage Collection, Collections framework, Generics.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Python">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Python</strong>
-                    <span class="badge badge-blue ms-2">Programming</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 5</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Data manipulation, scripting, decorators, generators, standard libraries.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="C++">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">C++</strong>
-                    <span class="badge badge-blue ms-2">Programming</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Pointers, STL containers, iterators, memory allocations, templates.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="JavaScript">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">JavaScript</strong>
-                    <span class="badge badge-blue ms-2">Programming</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  ES6+ syntax, asynchronous promises, event loop, closures, DOM manipulation.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 3: WEB & BACKEND -->
-          <div class="tab-pane" id="tab-web">
-            <div class="grid-2">
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Spring Boot">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Spring Boot</strong>
-                    <span class="badge badge-green ms-2">Backend</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Dependency injection, JPA/Hibernate, Spring Security, actuator, microservices.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="REST APIs">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">REST APIs & Web Protocols</strong>
-                    <span class="badge badge-green ms-2">Backend</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  HTTP methods, status codes, payload serialization, authentication headers, idempotency.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 4: DATA & DATABASES -->
-          <div class="tab-pane" id="tab-data">
-            <div class="grid-2">
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="DBMS">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">DBMS Architecture</strong>
-                    <span class="badge badge-yellow ms-2">Database</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Relational model, ER diagrams, 1NF-3NF normalization, ACID properties, deadlocks.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="SQL">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">SQL & Query Optimization</strong>
-                    <span class="badge badge-yellow ms-2">Database</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Complex joins, group by, window functions, B-tree indexes, execution plans.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 5: TOOLS & SECURITY -->
-          <div class="tab-pane" id="tab-tools">
-            <div class="grid-2">
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="Git">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">Git & Version Control</strong>
-                    <span class="badge badge-gray ms-2">Tools</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Branching strategies, merge conflict resolution, rebase, pull requests, CI/CD.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
-
-              <div class="card card-elevated p-4 skill-rating-card" data-skill-name="System Design">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                  <div>
-                    <strong style="color: var(--text-main); font-size: 1.05rem;">System Design Fundamentals</strong>
-                    <span class="badge badge-purple ms-2">CS</span>
-                  </div>
-                  <span class="badge badge-yellow">Target: Lvl 4</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                  Load balancers, caching (Redis), rate limiters, database sharding, CAP Theorem.
-                </p>
-                <div class="proficiency-selector mb-2">
-                  <div class="level-pill" data-level="0">0</div>
-                  <div class="level-pill" data-level="1">1</div>
-                  <div class="level-pill" data-level="2">2</div>
-                  <div class="level-pill" data-level="3">3</div>
-                  <div class="level-pill" data-level="4">4</div>
-                  <div class="level-pill" data-level="5">5</div>
-                </div>
-                <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
-              </div>
+              <span class="skill-level-desc form-helper">Click a rating level from 0 to 5</span>
             </div>
           </div>
         </div>
@@ -429,7 +123,6 @@
               </div>
             </div>
 
-            <!-- Detailed Breakdown List -->
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem;">
               <i class="fas fa-list-check text-primary me-2"></i> Detailed Skill Gap Breakdown
             </h3>
@@ -438,7 +131,6 @@
         </div>
       </div>
 
-      <!-- Footer Fragment -->
       <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
   </div>

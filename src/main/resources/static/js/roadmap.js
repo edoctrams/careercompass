@@ -60,26 +60,70 @@ document.addEventListener('DOMContentLoaded', function () {
         const card = document.createElement('div');
         card.className = `card card-elevated mb-3 ${isDone ? 'opacity-75' : ''}`;
         card.style.borderLeft = isDone ? '4px solid var(--color-success)' : '4px solid var(--accent-primary)';
-        const resourceBtn = task.resourceUrl
-          ? `<a href="${task.resourceUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt me-1"></i> Resource</a>`
+
+        const gapBadge = task.skillGap !== undefined
+          ? `<span class="badge ${task.skillGap >= 3 ? 'badge-red' : (task.skillGap >= 1 ? 'badge-yellow' : 'badge-green')}">Gap: ${task.skillGap} (Lvl ${task.currentLevel || 0} → ${task.requiredLevel || 4})</span>`
           : '';
+
+        const priorityBadge = task.priorityScore !== undefined
+          ? `<span class="badge badge-blue" title="Priority = (gap × 3) + importance + company bonus">Priority: ${task.priorityLabel || 'Medium'} (${task.priorityScore} pts / ${task.weightedPriorityPercent || 0}%)</span>`
+          : '';
+
+        const importanceBadge = task.importance !== undefined
+          ? `<span class="badge badge-gray">Importance: ${task.importance}/5</span>`
+          : '';
+
+        const prereqBadge = task.prerequisiteSkillName
+          ? `<span class="badge badge-gray"><i class="fas fa-diagram-project me-1"></i> Prereq: ${escapeHtml(task.prerequisiteSkillName)}</span>`
+          : '';
+
+        let resourceLinksHtml = '';
+        if (task.resources && task.resources.length > 0) {
+          resourceLinksHtml = `
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;">
+              ${task.resources.map(r => `
+                <a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                  <i class="fas fa-external-link-alt me-1"></i> ${escapeHtml(r.title)} ${r.provider ? `(${escapeHtml(r.provider)})` : ''}
+                </a>
+              `).join('')}
+            </div>
+          `;
+        } else if (task.resourceUrl) {
+          resourceLinksHtml = `
+            <div style="margin-top: 0.5rem;">
+              <a href="${escapeHtml(task.resourceUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                <i class="fas fa-external-link-alt me-1"></i> Learning Resource
+              </a>
+            </div>
+          `;
+        }
+
+        const practiceLink = task.skillName
+          ? `<a href="/question-sets?topic=${encodeURIComponent(task.skillName)}" class="btn btn-sm btn-secondary"><i class="fas fa-book-open me-1"></i> Questions</a>`
+          : '';
+
         card.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-            <div style="flex: 1;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 260px;">
+              <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.45rem; flex-wrap: wrap;">
                 <span class="badge ${isDone ? 'badge-green' : 'badge-purple'}">Week ${task.weekNumber || 1}</span>
                 <span class="badge badge-gray"><i class="far fa-clock"></i> ${task.estimatedHours || 2}h</span>
+                ${gapBadge}
+                ${priorityBadge}
+                ${importanceBadge}
+                ${prereqBadge}
                 <span class="badge ${isDone ? 'badge-green' : 'badge-yellow'}">${task.status}</span>
               </div>
               <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; text-decoration: ${isDone ? 'line-through' : 'none'};">
                 ${escapeHtml(task.title)}
               </h4>
-              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.35rem;">
                 ${escapeHtml(task.description || 'Focus on theory, practice problem solving, and build applied projects.')}
               </p>
+              ${resourceLinksHtml}
             </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-              ${resourceBtn}
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              ${practiceLink}
               ${!isDone ? `
                 <button class="btn btn-sm btn-success mark-task-btn" data-task-id="${task.id}">
                   <i class="fas fa-check"></i> Complete

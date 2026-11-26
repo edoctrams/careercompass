@@ -241,6 +241,13 @@ public class WebController {
         return "student/companies";
     }
 
+    @GetMapping("/companies/{name}")
+    public String companyDetail(@PathVariable String name, Model model) {
+        model.addAttribute("companyName", name);
+        model.addAttribute("activePage", "companies");
+        return "student/company-detail";
+    }
+
     @GetMapping("/interview-experiences")
     public String interviewExperiences(Model model) {
         model.addAttribute("activePage", "interview-experiences");

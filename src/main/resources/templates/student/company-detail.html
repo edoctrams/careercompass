@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${companyName} + ' Preparation Hub — Career Compass'">Company Preparation — Career Compass</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-container">
+  <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+  <div class="main-wrapper">
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main class="content-area">
+      <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <a href="/companies" class="text-secondary" style="font-size: 0.85rem; text-decoration: none;">
+            <i class="fas fa-arrow-left me-1"></i> Back to Company Directory
+          </a>
+          <h1 class="page-title mt-1" id="prep-company-title" th:text="${companyName} + ' Preparation Hub'">Company Preparation Hub</h1>
+          <p class="page-subtitle" id="prep-company-desc">
+            Role-wise target proficiency levels, curated questions, and interview experiences.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <select id="prep-role-select" class="form-select" style="min-width: 240px;">
+            <option value="">All Supported Career Streams</option>
+            <option value="Software Development Engineer (SDE)">Software Development Engineer (SDE)</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="AI/ML Engineer">AI/ML Engineer</option>
+            <option value="Cybersecurity Engineer">Cybersecurity Engineer</option>
+          </select>
+          <button type="button" class="btn btn-primary" id="prep-generate-roadmap-btn">
+            <i class="fas fa-wand-magic-sparkles me-1"></i> Generate <span th:text="${companyName}">Company</span> Roadmap
+          </button>
+          <a id="prep-official-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            Official Careers <i class="fas fa-external-link-alt ms-1"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Company Switcher Pills -->
+      <div class="mb-4" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/companies/Amazon" class="btn btn-sm" th:classappend="${companyName == 'Amazon' ? 'btn-primary' : 'btn-outline'}">
+          <i class="fab fa-amazon me-1"></i> Amazon
+        </a>
+        <a href="/companies/Microsoft" class="btn btn-sm" th:classappend="${companyName == 'Microsoft' ? 'btn-primary' : 'btn-outline'}">
+          <i class="fab fa-microsoft me-1"></i> Microsoft
+        </a>
+        <a href="/companies/TCS" class="btn btn-sm" th:classappend="${companyName == 'TCS' ? 'btn-primary' : 'btn-outline'}">
+          <i class="fas fa-building me-1"></i> TCS
+        </a>
+      </div>
+
+      <!-- 1. Priority Skills & Proficiency Gaps -->
+      <div class="card p-4 mb-4">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <h3 class="card-title mb-1"><i class="fas fa-bullseye text-primary me-2"></i> Target Skills & Proficiency Benchmarks</h3>
+            <p class="text-secondary mb-0" style="font-size: 0.85rem;">
+              Skills prioritized for <strong th:text="${companyName}">this company</strong> compared against your self-assessed proficiency.
+            </p>
+          </div>
+          <a href="/skill-assessment" class="btn btn-sm btn-outline">Update Skill Ratings</a>
+        </div>
+        <div id="prep-skills-container" class="grid-3">
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+
+      <!-- 2. Company-Associated Practice Questions -->
+      <div class="card p-4 mb-4">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <h3 class="card-title mb-1"><i class="fas fa-code text-primary me-2"></i> Company-Associated & Role-Relevant Questions</h3>
+            <p class="text-secondary mb-0" style="font-size: 0.85rem;">
+              Read-only preparation questions with source classification and expandable solutions.
+            </p>
+          </div>
+          <a th:href="@{/question-sets(company=${companyName})}" class="btn btn-sm btn-primary">
+            Open in Full Question Bank
+          </a>
+        </div>
+        <div id="prep-questions-container">
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+
+      <!-- 3. Interview Experiences -->
+      <div class="card p-4 mb-4">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <h3 class="card-title mb-1"><i class="fas fa-comments text-primary me-2"></i> Campus & Placement Interview Experiences</h3>
+            <p class="text-secondary mb-0" style="font-size: 0.85rem;">
+              Documented interview rounds and preparation tips shared for <strong th:text="${companyName}">Company</strong>.
+            </p>
+          </div>
+          <a href="/interview-experiences" class="btn btn-sm btn-outline">View All / Share Experience</a>
+        </div>
+        <div id="prep-experiences-container">
+          <div class="skeleton skeleton-card"></div>
+        </div>
+      </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+  </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+<script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function () {
+  const companyName = /*[[${companyName}]]*/ 'Amazon';
+  const roleSelect = document.getElementById('prep-role-select');
+  const skillsContainer = document.getElementById('prep-skills-container');
+  const questionsContainer = document.getElementById('prep-questions-container');
+  const experiencesContainer = document.getElementById('prep-experiences-container');
+  const genBtn = document.getElementById('prep-generate-roadmap-btn');
+  const officialLink = document.getElementById('prep-official-link');
+  const descEl = document.getElementById('prep-company-desc');
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function loadPreparationData() {
+    const selectedRole = roleSelect ? roleSelect.value : '';
+    const params = new URLSearchParams({ name: companyName });
+    if (selectedRole) params.set('careerPathName', selectedRole);
+
+    try {
+      const res = await fetch('/api/companies/preparation?' + params.toString());
+      if (res.ok) {
+        const data = await res.json();
+        if (descEl && data.description) descEl.textContent = data.description;
+        if (officialLink && data.website) officialLink.href = data.website;
+        if (roleSelect && !roleSelect.dataset.initialized && data.selectedCareerPathName) {
+          roleSelect.value = data.selectedCareerPathName;
+          roleSelect.dataset.initialized = 'true';
+        }
+        renderFocusSkills(data.focusSkills || []);
+        renderExperiences(data.experiences || []);
+      }
+    } catch (e) {
+      console.warn('Could not load company preparation:', e);
+    }
+
+    await loadCompanyQuestions(selectedRole || (roleSelect ? roleSelect.value : ''));
+  }
+
+  function renderFocusSkills(skills) {
+    skillsContainer.innerHTML = '';
+    if (!skills.length) {
+      skillsContainer.innerHTML = '<p class="text-secondary">No specific skill benchmarks mapped for this filter.</p>';
+      return;
+    }
+
+    skills.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'card card-elevated p-3';
+      const gap = s.skillGap || 0;
+      const gapBadge = gap === 0
+        ? '<span class="badge badge-green">Target Met</span>'
+        : `<span class="badge ${gap >= 3 ? 'badge-red' : 'badge-yellow'}">Gap: ${gap}</span>`;
+
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem;">
+          <strong>${escapeHtml(s.skillName)}</strong>
+          ${gapBadge}
+        </div>
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+          <span class="badge badge-purple">${escapeHtml(s.careerPathName)}</span>
+          <span class="badge badge-gray">Target: Lvl ${s.targetLevel}/5</span>
+          <span class="badge badge-gray">Yours: Lvl ${s.currentLevel}/5</span>
+          <span class="badge badge-blue">${escapeHtml(s.evidenceType || 'GENERAL')}</span>
+        </div>
+        ${s.sourceUrl ? `<a href="${escapeHtml(s.sourceUrl)}" target="_blank" rel="noopener noreferrer" style="font-size: 0.78rem;">Official Topic Guide <i class="fas fa-external-link-alt"></i></a>` : ''}
+      `;
+      skillsContainer.appendChild(card);
+    });
+  }
+
+  async function loadCompanyQuestions(roleName) {
+    questionsContainer.innerHTML = '';
+    try {
+      const qParams = new URLSearchParams({ companyName });
+      if (roleName) qParams.set('careerPathName', roleName);
+      let res = await fetch('/api/questions/filter?' + qParams.toString());
+      let questions = res.ok ? await res.json() : [];
+
+      // Also include role-relevant practice questions if company-tagged list is small
+      if (questions.length < 4 && roleName) {
+        const roleRes = await fetch('/api/questions/filter?' + new URLSearchParams({ careerPathName: roleName }).toString());
+        if (roleRes.ok) {
+          const roleQuestions = await roleRes.json();
+          const seen = new Set(questions.map(q => q.id));
+          roleQuestions.slice(0, 6).forEach(rq => {
+            if (!seen.has(rq.id)) questions.push(rq);
+          });
+        }
+      }
+
+      if (!questions.length) {
+        questionsContainer.innerHTML = '<p class="text-secondary">No questions found for this filter.</p>';
+        return;
+      }
+
+      questions.slice(0, 8).forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'card card-elevated p-3 mb-2';
+        const subtopics = (q.subtopics || []).map(st => st.name).join(', ') || q.skillName || 'General';
+        const compBadges = (q.companies && q.companies.length)
+          ? q.companies.map(c => `<span class="badge badge-purple">${escapeHtml(c.name)} (${escapeHtml(c.evidenceType || 'GENERAL')})</span>`).join(' ')
+          : '<span class="badge badge-gray">Company-Relevant Practice</span>';
+
+        card.innerHTML = `
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
+            ${compBadges}
+            <span class="badge badge-blue">${escapeHtml(q.questionType)}</span>
+            <span class="badge badge-gray">${escapeHtml(q.difficulty || 'Medium')}</span>
+            <span class="badge badge-yellow">${escapeHtml(subtopics)}</span>
+          </div>
+          <p style="font-weight: 600; margin-bottom: 0.4rem; white-space: pre-line;">${escapeHtml(q.questionText)}</p>
+          <details>
+            <summary style="cursor: pointer; font-size: 0.85rem; color: var(--primary); font-weight: 600;">Show Answer & Explanation</summary>
+            <div class="card p-2 mt-2" style="font-size: 0.85rem;">
+              <p class="mb-1"><strong>Answer:</strong> ${escapeHtml(q.answer)}</p>
+              ${q.explanation ? `<p class="text-secondary mb-0"><strong>Explanation:</strong> ${escapeHtml(q.explanation)}</p>` : ''}
+            </div>
+          </details>
+        `;
+        questionsContainer.appendChild(card);
+      });
+    } catch (e) {
+      questionsContainer.innerHTML = '<p class="text-secondary">Could not load questions.</p>';
+    }
+  }
+
+  function renderExperiences(experiences) {
+    experiencesContainer.innerHTML = '';
+    if (!experiences.length) {
+      experiencesContainer.innerHTML = '<p class="text-secondary">No interview experiences recorded for this company yet.</p>';
+      return;
+    }
+
+    experiences.forEach(exp => {
+      const card = document.createElement('div');
+      card.className = 'card card-elevated p-3 mb-2';
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+          <strong>${escapeHtml(exp.role || 'Engineering Role')} • Batch ${escapeHtml(exp.batch || '2025')}</strong>
+          <span class="badge badge-purple">${escapeHtml(exp.difficulty || 'Medium')}</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); white-space: pre-line; margin-bottom: 0.25rem;">${escapeHtml(exp.experienceText)}</p>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Shared by ${escapeHtml(exp.candidateName || 'Student')}</span>
+      `;
+      experiencesContainer.appendChild(card);
+    });
+  }
+
+  if (roleSelect) {
+    roleSelect.addEventListener('change', loadPreparationData);
+  }
+
+  if (genBtn) {
+    genBtn.addEventListener('click', async function () {
+      this.disabled = true;
+      try {
+        const payload = { companyName };
+        if (roleSelect && roleSelect.value) payload.careerPathName = roleSelect.value;
+        const res = await fetch('/api/roadmaps/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          if (window.showToast) window.showToast(`Generated ${companyName} roadmap!`, 'success');
+          setTimeout(() => { window.location.href = '/roadmap'; }, 400);
+        }
+      } finally {
+        this.disabled = false;
+      }
+    });
+  }
+
+  loadPreparationData();
+});
+</script>
+</body>
+</html>

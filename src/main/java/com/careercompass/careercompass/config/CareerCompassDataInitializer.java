@@ -76,6 +76,8 @@ public class CareerCompassDataInitializer {
         });
 
         Map<String, String> catalogue = Map.ofEntries(
+                Map.entry("Programming Fundamentals", "Programming"),
+                Map.entry("Software Engineering", "Software Engineering"),
                 Map.entry("Java", "Programming"),
                 Map.entry("C++", "Programming"),
                 Map.entry("Python", "Programming"),
@@ -84,6 +86,9 @@ public class CareerCompassDataInitializer {
                 Map.entry("OOP", "Computer Science"),
                 Map.entry("DBMS", "Computer Science"),
                 Map.entry("SQL", "Data"),
+                Map.entry("Excel", "Data"),
+                Map.entry("Data Visualization", "Data Science"),
+                Map.entry("Business Analytics", "Data"),
                 Map.entry("Operating Systems", "Computer Science"),
                 Map.entry("Computer Networks", "Computer Science"),
                 Map.entry("Git", "Tools"),
@@ -95,8 +100,11 @@ public class CareerCompassDataInitializer {
                 Map.entry("React", "Web Development"),
                 Map.entry("Spring Boot", "Backend"),
                 Map.entry("REST APIs", "Backend"),
+                Map.entry("Mathematics for ML", "AI/ML"),
                 Map.entry("Machine Learning", "AI/ML"),
                 Map.entry("Deep Learning", "AI/ML"),
+                Map.entry("Advanced Machine Learning", "AI/ML"),
+                Map.entry("MLOps", "AI/ML"),
                 Map.entry("Statistics", "Data Science"),
                 Map.entry("Data Analysis", "Data"),
                 Map.entry("NumPy", "Data Science"),
@@ -105,6 +113,8 @@ public class CareerCompassDataInitializer {
                 Map.entry("System Design", "Computer Science"),
                 Map.entry("Network Security", "Cybersecurity"),
                 Map.entry("Cryptography", "Cybersecurity"),
+                Map.entry("Web Application Security", "Cybersecurity"),
+                Map.entry("Security Operations & Incident Response", "Cybersecurity"),
                 Map.entry("Communication", "Soft Skills")
         );
 
@@ -142,11 +152,13 @@ public class CareerCompassDataInitializer {
 
         Map<String, Integer> analyst = Map.of(
                 "SQL", 5, "Data Analysis", 5, "Statistics", 4,
-                "Python", 3, "Pandas", 4);
+                "Python", 3, "Pandas", 4, "Excel", 4,
+                "Data Visualization", 4, "Business Analytics", 4);
 
         Map<String, Integer> cyber = Map.of(
-                "Operating Systems", 5, "Computer Networks", 5, "Linux", 5,
-                "Network Security", 5, "Cryptography", 4, "Python", 4);
+                "Operating Systems", 4, "Computer Networks", 5, "Linux", 4,
+                "Network Security", 5, "Cryptography", 4, "Python", 3,
+                "Web Application Security", 4, "Security Operations & Incident Response", 4);
 
         map(careers, skills, mappings, "Software Development Engineer (SDE)", sde);
         map(careers, skills, mappings, "Backend Developer", backend);
