@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.careercompass.careercompass.entity.User;
@@ -26,8 +27,9 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+            String normalizedEmail = username == null ? "" : username.trim().toLowerCase();
+            User user = userRepository.findByEmailIgnoreCase(normalizedEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + normalizedEmail));
             return UserDetailsImpl.build(user);
         };
     }
@@ -44,6 +46,7 @@ public class SecurityConfig {
                     "/registration",
                     "/careers",
                     "/careers/**",
+                    "/career-detail",
                     "/api/auth/**",
                     "/api/careers/**",
                     "/css/**",

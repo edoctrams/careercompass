@@ -54,12 +54,14 @@
             </p>
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <a href="/question-sets?company=Amazon"
                class="btn btn-primary btn-sm">
               View Question Bank
             </a>
-
+            <button type="button" class="btn btn-secondary btn-sm target-company-btn" data-company="Amazon">
+              Target Roadmap
+            </button>
             <a href="https://www.amazon.jobs/"
                target="_blank" rel="noopener noreferrer"
                class="btn btn-outline btn-sm">
@@ -90,12 +92,14 @@
             </p>
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <a href="/question-sets?company=Microsoft"
                class="btn btn-primary btn-sm">
               View Question Bank
             </a>
-
+            <button type="button" class="btn btn-secondary btn-sm target-company-btn" data-company="Microsoft">
+              Target Roadmap
+            </button>
             <a href="https://careers.microsoft.com/"
                target="_blank" rel="noopener noreferrer"
                class="btn btn-outline btn-sm">
@@ -125,12 +129,14 @@
             </p>
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <a href="/question-sets?company=TCS"
                class="btn btn-primary btn-sm">
               View Question Bank
             </a>
-
+            <button type="button" class="btn btn-secondary btn-sm target-company-btn" data-company="TCS">
+              Target Roadmap
+            </button>
             <a href="https://www.tcs.com/careers"
                target="_blank" rel="noopener noreferrer"
                class="btn btn-outline btn-sm">
@@ -154,6 +160,32 @@ document.getElementById('company-search').addEventListener('input', function () 
   document.querySelectorAll('.company-card').forEach(card => {
     card.style.display =
       card.textContent.toLowerCase().includes(query) ? '' : 'none';
+  });
+});
+
+document.querySelectorAll('.target-company-btn').forEach(btn => {
+  btn.addEventListener('click', async function () {
+    const companyName = this.getAttribute('data-company');
+    this.disabled = true;
+    try {
+      const res = await fetch('/api/roadmaps/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyName })
+      });
+      if (res.ok) {
+        if (window.showToast) window.showToast(`Generated ${companyName}-aligned roadmap!`, 'success');
+        setTimeout(() => { window.location.href = '/roadmap'; }, 500);
+      } else if (res.status === 401) {
+        if (window.showToast) window.showToast('Please log in to generate a company roadmap.', 'warning');
+      } else {
+        if (window.showToast) window.showToast('Could not generate company roadmap.', 'error');
+      }
+    } catch (e) {
+      if (window.showToast) window.showToast('Error: ' + e.message, 'error');
+    } finally {
+      this.disabled = false;
+    }
   });
 });
 </script>

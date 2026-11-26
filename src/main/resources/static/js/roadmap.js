@@ -3,7 +3,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Load Current Roadmap from Backend
   loadRoadmapData();
 
   async function loadRoadmapData() {
@@ -35,7 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (titleEl) titleEl.textContent = data.title;
 
     const roleEl = document.getElementById('roadmap-role-badge');
-    if (roleEl) roleEl.textContent = data.careerPathName;
+    if (roleEl) {
+      roleEl.textContent = data.companyName
+        ? `${data.careerPathName} • ${data.companyName}`
+        : data.careerPathName;
+    }
+
+    const deadlineEl = document.getElementById('roadmap-deadline-val');
+    if (deadlineEl) deadlineEl.textContent = data.targetDeadline || 'Flexible';
+
+    const tasksCountEl = document.getElementById('roadmap-tasks-count-val');
+    if (tasksCountEl) tasksCountEl.textContent = `${data.completedTasks || 0} / ${data.totalTasks || 0} Tasks`;
 
     const progressPercent = data.progressPercentage || 0;
     const progressEl = document.getElementById('roadmap-progress-val');
@@ -51,22 +60,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const card = document.createElement('div');
         card.className = `card card-elevated mb-3 ${isDone ? 'opacity-75' : ''}`;
         card.style.borderLeft = isDone ? '4px solid var(--color-success)' : '4px solid var(--accent-primary)';
+        const resourceBtn = task.resourceUrl
+          ? `<a href="${task.resourceUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline"><i class="fas fa-external-link-alt me-1"></i> Resource</a>`
+          : '';
         card.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
             <div style="flex: 1;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
                 <span class="badge ${isDone ? 'badge-green' : 'badge-purple'}">Week ${task.weekNumber || 1}</span>
                 <span class="badge badge-gray"><i class="far fa-clock"></i> ${task.estimatedHours || 2}h</span>
-                <span class="badge ${task.status === 'COMPLETED' ? 'badge-green' : 'badge-yellow'}">${task.status}</span>
+                <span class="badge ${isDone ? 'badge-green' : 'badge-yellow'}">${task.status}</span>
               </div>
               <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; text-decoration: ${isDone ? 'line-through' : 'none'};">
-                ${task.title}
+                ${escapeHtml(task.title)}
               </h4>
               <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                ${task.description || 'Focus on theory, practice problem solving, and build applied projects.'}
+                ${escapeHtml(task.description || 'Focus on theory, practice problem solving, and build applied projects.')}
               </p>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              ${resourceBtn}
               ${!isDone ? `
                 <button class="btn btn-sm btn-success mark-task-btn" data-task-id="${task.id}">
                   <i class="fas fa-check"></i> Complete
@@ -80,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
         tasksList.appendChild(card);
       });
 
-      // Hook complete buttons
       tasksList.querySelectorAll('.mark-task-btn').forEach(btn => {
         btn.addEventListener('click', async function () {
           const taskId = this.getAttribute('data-task-id');
@@ -104,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Handle Generate Roadmap Button
   const generateBtn = document.getElementById('generate-roadmap-btn');
   if (generateBtn) {
     generateBtn.addEventListener('click', async function () {
@@ -129,5 +140,55 @@ document.addEventListener('DOMContentLoaded', function () {
         generateBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-2"></i> Generate My Roadmap';
       }
     });
+  }
+
+  const saveCustomizeBtn = document.getElementById('save-customize-roadmap-btn');
+  if (saveCustomizeBtn) {
+    saveCustomizeBtn.addEventListener('click', async function () {
+      const hoursInput = document.getElementById('custom-study-hours');
+      const deadlineInput = document.getElementById('custom-deadline');
+      const companySelect = document.getElementById('custom-company-select');
+
+      const dailyHours = hoursInput ? parseInt(hoursInput.value, 10) : null;
+      const targetDeadline = deadlineInput && deadlineInput.value ? deadlineInput.value : null;
+      const companyName = companySelect && companySelect.value ? companySelect.value : null;
+
+      saveCustomizeBtn.disabled = true;
+      try {
+        if (dailyHours && dailyHours > 0) {
+          await fetch('/api/user/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dailyAvailableHours: dailyHours })
+          });
+        }
+
+        const genRes = await fetch('/api/roadmaps/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ companyName, targetDeadline })
+        });
+
+        if (genRes.ok) {
+          window.closeModal('customize-roadmap-modal');
+          window.showToast('Personalized roadmap updated!', 'success');
+          loadRoadmapData();
+        } else {
+          window.showToast('Could not update roadmap.', 'error');
+        }
+      } catch (e) {
+        window.showToast('Error: ' + e.message, 'error');
+      } finally {
+        saveCustomizeBtn.disabled = false;
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 });

@@ -1,18 +1,31 @@
 package com.careercompass.careercompass.controller;
 
+import com.careercompass.careercompass.dto.RegisterRequest;
 import com.careercompass.careercompass.dto.StudentProfileDTO;
 import com.careercompass.careercompass.entity.User;
 import com.careercompass.careercompass.repository.UserRepository;
 import com.careercompass.careercompass.security.UserDetailsImpl;
 import com.careercompass.careercompass.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -23,6 +36,11 @@ public class WebController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     @ModelAttribute("isAuthenticated")
     public boolean isAuthenticated(Authentication authentication) {
@@ -83,6 +101,52 @@ public class WebController {
         }
         model.addAttribute("activePage", "register");
         return "student/register";
+    }
+
+    @PostMapping("/register")
+    public String handleRegistration(
+            @Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest,
+            BindingResult bindingResult,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Model model) {
+        model.addAttribute("activePage", "register");
+
+        if (confirmPassword != null && !confirmPassword.equals(registerRequest.getPassword())) {
+            model.addAttribute("registerError", "Passwords do not match. Please re-enter.");
+            return "student/register";
+        }
+
+        if (bindingResult.hasErrors()) {
+            String errorMsg = bindingResult.getFieldErrors().stream()
+                    .findFirst()
+                    .map(err -> err.getField() + ": " + err.getDefaultMessage())
+                    .orElse("Please check all required registration fields.");
+            model.addAttribute("registerError", errorMsg);
+            return "student/register";
+        }
+
+        try {
+            userService.register(registerRequest);
+
+            String normalizedEmail = registerRequest.getEmail().trim().toLowerCase();
+            Authentication authResult = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(normalizedEmail, registerRequest.getPassword())
+            );
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authResult);
+            SecurityContextHolder.setContext(context);
+            securityContextRepository.saveContext(context, request, response);
+
+            return "redirect:/onboarding";
+        } catch (IllegalArgumentException | DataIntegrityViolationException e) {
+            model.addAttribute("registerError", "An account with this email is already registered.");
+            return "student/register";
+        } catch (Exception e) {
+            model.addAttribute("registerError", "Unable to create account right now. Please try again.");
+            return "student/register";
+        }
     }
 
     @GetMapping("/onboarding")

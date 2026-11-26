@@ -1,5 +1,6 @@
 package com.careercompass.careercompass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.*;
@@ -40,6 +41,11 @@ public class RoadmapTask {
     @Column(name="resource_url", length=2048)
     private String resourceUrl;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "learning_resource_id", nullable = true)
+    private LearningResource learningResource;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable=false, length=40)
@@ -70,6 +76,9 @@ public class RoadmapTask {
 
     public String getResourceUrl() { return resourceUrl; }
     public void setResourceUrl(String resourceUrl) { this.resourceUrl = resourceUrl; }
+
+    public LearningResource getLearningResource() { return learningResource; }
+    public void setLearningResource(LearningResource learningResource) { this.learningResource = learningResource; }
 
     public RoadmapTaskStatus getStatus() { return status; }
     public void setStatus(RoadmapTaskStatus status) { this.status = status; }

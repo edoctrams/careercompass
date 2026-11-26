@@ -14,6 +14,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
     "spring.datasource.username=sa",
     "spring.datasource.password=password",
     "spring.datasource.driver-class-name=org.h2.Driver",
+    "spring.flyway.enabled=false",
+    "spring.jpa.hibernate.ddl-auto=update",
     "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration"
 })
 class CareercompassApplicationTests {

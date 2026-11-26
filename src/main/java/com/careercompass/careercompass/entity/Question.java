@@ -1,10 +1,10 @@
 package com.careercompass.careercompass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.*;
-import java.math.BigDecimal;
-import jakarta.persistence.Index;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "questions", indexes = {@Index(name="idx_question_set", columnList="question_set_id"), @Index(name="idx_question_skill", columnList="skill_id")})
@@ -27,6 +27,17 @@ public class Question {
 
     @Column(columnDefinition="text")
     private String answer;
+
+    @Column(name = "explanation", columnDefinition = "text")
+    private String explanation;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<QuestionSubtopic> subtopics = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<QuestionCompany> companies = new ArrayList<>();
 
     @Column(name = "difficulty", nullable = true, length = 40)
     private String difficulty;
@@ -52,6 +63,15 @@ public class Question {
 
     public String getAnswer() { return answer; }
     public void setAnswer(String answer) { this.answer = answer; }
+
+    public String getExplanation() { return explanation; }
+    public void setExplanation(String explanation) { this.explanation = explanation; }
+
+    public List<QuestionSubtopic> getSubtopics() { return subtopics; }
+    public void setSubtopics(List<QuestionSubtopic> subtopics) { this.subtopics = subtopics; }
+
+    public List<QuestionCompany> getCompanies() { return companies; }
+    public void setCompanies(List<QuestionCompany> companies) { this.companies = companies; }
 
     public String getDifficulty() { return difficulty; }
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }

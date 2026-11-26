@@ -1,5 +1,6 @@
 package com.careercompass.careercompass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.*;
@@ -20,6 +21,11 @@ public class Roadmap {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "career_path_id", nullable = false)
     private CareerPath careerPath;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "company_id", nullable = true)
+    private Company company;
 
     @NotBlank
     @Column(name = "title", nullable = false, length = 200)
@@ -47,6 +53,9 @@ public class Roadmap {
 
     public CareerPath getCareerPath() { return careerPath; }
     public void setCareerPath(CareerPath careerPath) { this.careerPath = careerPath; }
+
+    public Company getCompany() { return company; }
+    public void setCompany(Company company) { this.company = company; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }

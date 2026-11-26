@@ -38,6 +38,43 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Preload existing assessed ratings from backend so progress persists across sessions
+  loadExistingRatings();
+
+  async function loadExistingRatings() {
+    try {
+      const res = await fetch('/api/user/skills');
+      if (!res.ok) return;
+      const savedSkills = await res.json();
+      const byName = {};
+      savedSkills.forEach(s => {
+        if (s.skillName) byName[s.skillName.toLowerCase()] = s.proficiency;
+      });
+
+      skillCards.forEach(card => {
+        const skillName = card.getAttribute('data-skill-name');
+        if (!skillName) return;
+        const savedLevel = byName[skillName.toLowerCase()];
+        if (savedLevel === undefined || savedLevel === null) return;
+
+        ratings[skillName] = savedLevel;
+        const pills = card.querySelectorAll('.level-pill');
+        const descSpan = card.querySelector('.skill-level-desc');
+        pills.forEach(p => {
+          const lvl = parseInt(p.getAttribute('data-level'), 10);
+          p.classList.toggle('active', lvl === savedLevel);
+        });
+        if (descSpan && proficiencyDescriptions[savedLevel]) {
+          descSpan.textContent = proficiencyDescriptions[savedLevel];
+          descSpan.style.color = savedLevel >= 3 ? 'var(--color-success)' : 'var(--text-secondary)';
+        }
+      });
+      updateSummaryMetrics();
+    } catch (e) {
+      console.warn('Could not preload saved skill ratings:', e);
+    }
+  }
+
   function updateSummaryMetrics() {
     const assessedCount = Object.keys(ratings).length;
     const countEl = document.getElementById('assessed-count');

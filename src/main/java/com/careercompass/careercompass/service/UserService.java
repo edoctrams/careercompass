@@ -10,9 +10,11 @@ import com.careercompass.careercompass.repository.UserRepository;
 import com.careercompass.careercompass.repository.StudentProfileRepository;
 import com.careercompass.careercompass.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,15 +36,16 @@ public class UserService {
 
     @Transactional
     public AuthenticationResponse login(LoginRequest loginRequest) {
+        String normalizedEmail = loginRequest.getEmail() == null ? "" : loginRequest.getEmail().trim().toLowerCase();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
+                        normalizedEmail,
                         loginRequest.getPassword()
                 )
         );
 
-        User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmailIgnoreCase(normalizedEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = generateToken(user);
 
@@ -56,17 +59,18 @@ public class UserService {
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new RuntimeException("Email already registered");
+        String normalizedEmail = registerRequest.getEmail() == null ? "" : registerRequest.getEmail().trim().toLowerCase();
+        if (userRepository.existsByEmailIgnoreCase(normalizedEmail)) {
+            throw new IllegalArgumentException("An account with this email is already registered.");
         }
 
         User user = new User();
-        user.setName(registerRequest.getName());
-        user.setEmail(registerRequest.getEmail());
+        user.setName(registerRequest.getName() == null ? "" : registerRequest.getName().trim());
+        user.setEmail(normalizedEmail);
         user.setPasswordHash(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreatedAt(java.time.LocalDateTime.now());
 
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         StudentProfile studentProfile = new StudentProfile();
         studentProfile.setUser(user);
@@ -108,12 +112,13 @@ public class UserService {
     public UserDetailsImpl getCurrentUserDetails() {
         org.springframework.security.core.Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
         String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return UserDetailsImpl.build(user);
     }
 
@@ -143,7 +148,9 @@ public class UserService {
         }
 
         dto.setProfileComplete(isProfileComplete(profile));
-        dto.setCreatedAt(user.getCreatedAt().toLocalDate());
+        if (user.getCreatedAt() != null) {
+            dto.setCreatedAt(user.getCreatedAt().toLocalDate());
+        }
 
         return dto;
     }

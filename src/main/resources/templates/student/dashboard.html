@@ -45,7 +45,7 @@
               </div>
               <div class="card p-2 px-3 text-center" style="background-color: var(--bg-surface); border: 1px solid var(--border);">
                 <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Active Streak</span>
-                <div style="font-size: 1.1rem; font-weight: 700; color: var(--warning);" id="stat-streak">🔥 14 Days</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--warning);" id="stat-streak">-- Days</div>
               </div>
               <a href="/skill-assessment" class="btn btn-primary">
                 <i class="fas fa-sliders-h me-1"></i> Assess Skills
@@ -60,8 +60,8 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
                 <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Skills Assessed</span>
-                <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0;" id="stat-skills-assessed">16 / 24</div>
-                <span style="font-size: 0.75rem; color: var(--secondary); font-weight: 600;"><i class="fas fa-check-circle"></i> 67% Evaluated</span>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0;" id="stat-skills-assessed">--</div>
+                <span style="font-size: 0.75rem; color: var(--secondary); font-weight: 600;" id="stat-skills-assessed-sub"><i class="fas fa-check-circle"></i> Loading...</span>
               </div>
               <div style="width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
                 <i class="fas fa-layer-group"></i>
@@ -73,8 +73,8 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
                 <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Skills to Improve</span>
-                <div style="font-size: 1.8rem; font-weight: 800; color: var(--warning); margin: 0.25rem 0;">5 Priority</div>
-                <span style="font-size: 0.75rem; color: var(--warning); font-weight: 600;"><i class="fas fa-arrow-up"></i> Gaps in Trees & SQL</span>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--warning); margin: 0.25rem 0;" id="stat-skills-improve">--</div>
+                <span style="font-size: 0.75rem; color: var(--warning); font-weight: 600;" id="stat-skills-improve-sub"><i class="fas fa-arrow-up"></i> Analyzing gaps...</span>
               </div>
               <div style="width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--warning-light); color: var(--warning); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
                 <i class="fas fa-chart-line"></i>
@@ -86,8 +86,8 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
                 <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Tasks Completed</span>
-                <div style="font-size: 1.8rem; font-weight: 800; color: var(--success); margin: 0.25rem 0;" id="stat-tasks-done">24 Tasks</div>
-                <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;"><i class="fas fa-trophy"></i> +3 This Week</span>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--success); margin: 0.25rem 0;" id="stat-tasks-done">0 Tasks</div>
+                <span style="font-size: 0.75rem; color: var(--success); font-weight: 600;"><i class="fas fa-trophy"></i> Roadmap Progress</span>
               </div>
               <div style="width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
                 <i class="fas fa-calendar-check"></i>
@@ -98,9 +98,9 @@
           <div class="card card-hover-lift">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
-                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Total Learning Hours</span>
-                <div style="font-size: 1.8rem; font-weight: 800; color: var(--secondary); margin: 0.25rem 0;" id="stat-hours">48.5 hrs</div>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);"><i class="far fa-clock"></i> Logged study time</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Practice Accuracy</span>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--secondary); margin: 0.25rem 0;" id="stat-question-accuracy">0%</div>
+                <span style="font-size: 0.75rem; color: var(--text-secondary);" id="stat-question-attempts"><i class="fas fa-check-double"></i> 0 attempts</span>
               </div>
               <div style="width: 42px; height: 42px; border-radius: var(--radius-sm); background: var(--secondary-light); color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
                 <i class="fas fa-hourglass-half"></i>
@@ -123,81 +123,20 @@
                 <a href="/roadmap" class="btn btn-sm btn-ghost">Full Roadmap <i class="fas fa-chevron-right ms-1"></i></a>
               </div>
 
-              <!-- Task 1 -->
-              <div class="card card-elevated p-3 mb-3" style="border-left: 4px solid var(--danger);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                  <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
-                      <span class="badge badge-red">Urgent Priority</span>
-                      <span class="badge badge-purple">DSA Mastery</span>
-                      <span class="badge badge-gray"><i class="far fa-clock"></i> 90 mins</span>
-                    </div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">
-                      Binary Search Tree: Lowest Common Ancestor & Deletion
-                    </h4>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
-                      Study recursive tree traversal patterns and solve 3 standard LeetCode Medium placement questions.
-                    </p>
-                  </div>
-                  <div style="display: flex; gap: 0.5rem;">
-                    <a href="/question-sets" class="btn btn-sm btn-primary">Start Task</a>
-                    <button type="button" class="btn btn-sm btn-outline" onclick="window.showToast('Task marked as completed! Streak updated.', 'success')"><i class="fas fa-check"></i></button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Task 2 -->
-              <div class="card card-elevated p-3 mb-3" style="border-left: 4px solid var(--secondary);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                  <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
-                      <span class="badge badge-blue">Core Technical</span>
-                      <span class="badge badge-gray"><i class="far fa-clock"></i> 60 mins</span>
-                    </div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">
-                      Relational DBMS: Indexing Strategies (B-Tree vs Hash Index)
-                    </h4>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
-                      Understand clustered vs non-clustered index behavior and query execution planning (EXPLAIN ANALYZE).
-                    </p>
-                  </div>
-                  <div style="display: flex; gap: 0.5rem;">
-                    <a href="/resources" class="btn btn-sm btn-secondary">Read Guide</a>
-                    <button type="button" class="btn btn-sm btn-outline" onclick="window.showToast('Task marked as completed!', 'success')"><i class="fas fa-check"></i></button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Task 3 -->
-              <div class="card card-elevated p-3" style="border-left: 4px solid var(--warning);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                  <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
-                      <span class="badge badge-yellow">Placement Prep</span>
-                      <span class="badge badge-gray"><i class="far fa-clock"></i> 45 mins</span>
-                    </div>
-                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">
-                      Amazon Leadership Principles: Behavioral Interview Practice
-                    </h4>
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
-                      Prepare 2 STAR format project narratives illustrating "Customer Obsession" and "Bias for Action".
-                    </p>
-                  </div>
-                  <div style="display: flex; gap: 0.5rem;">
-                    <a href="/interview-experiences" class="btn btn-sm btn-outline">Practice Answers</a>
-                  </div>
-                </div>
+              <div id="dashboard-focus-list">
+                <div class="skeleton skeleton-card mb-3"></div>
+                <div class="skeleton skeleton-card mb-3"></div>
               </div>
             </div>
 
-            <!-- ROADMAP OVERVIEW: 7-DAY CALENDAR VIEW -->
+            <!-- ROADMAP OVERVIEW -->
             <div class="card">
               <div class="card-header">
                 <div>
-                  <h3 class="card-title"><i class="fas fa-calendar-week text-secondary"></i> Weekly Roadmap Schedule</h3>
-                  <div class="card-subtitle">Week 3 of 12 • Active SDE Roadmap</div>
+                  <h3 class="card-title"><i class="fas fa-calendar-week text-secondary"></i> Active Roadmap Status</h3>
+                  <div class="card-subtitle" id="dashboard-roadmap-subtitle">Loading active roadmap...</div>
                 </div>
-                <span class="badge badge-green">75% Weekly Goal</span>
+                <span class="badge badge-green" id="dashboard-roadmap-progress-badge">0% Complete</span>
               </div>
 
               <div class="grid-4" style="grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center;">
@@ -249,52 +188,8 @@
                 <a href="/skill-assessment" style="font-size: 0.8rem; font-weight: 600;">Update</a>
               </div>
 
-              <!-- Skill 1 -->
-              <div class="mb-3">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
-                  <strong style="color: var(--text-main);">Data Structures (DSA)</strong>
-                  <span style="color: var(--text-muted);">Current: <b style="color: var(--secondary);">3</b> / Req: <b style="color: var(--primary);">5</b></span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar" style="width: 60%;"></div>
-                </div>
-              </div>
-
-              <!-- Skill 2 -->
-              <div class="mb-3">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
-                  <strong style="color: var(--text-main);">Java Programming</strong>
-                  <span style="color: var(--text-muted);">Current: <b style="color: var(--secondary);">4</b> / Req: <b style="color: var(--primary);">5</b></span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar" style="width: 80%;"></div>
-                </div>
-              </div>
-
-              <!-- Skill 3 -->
-              <div class="mb-3">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
-                  <strong style="color: var(--text-main);">DBMS & SQL</strong>
-                  <span style="color: var(--text-muted);">Current: <b style="color: var(--secondary);">2</b> / Req: <b style="color: var(--primary);">4</b></span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar progress-bar-warning" style="width: 50%;"></div>
-                </div>
-              </div>
-
-              <!-- Skill 4 -->
-              <div class="mb-3">
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
-                  <strong style="color: var(--text-main);">Operating Systems</strong>
-                  <span style="color: var(--text-muted);">Current: <b style="color: var(--secondary);">3</b> / Req: <b style="color: var(--primary);">3</b></span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
-                </div>
-              </div>
-
-              <div style="background-color: var(--bg-subtle); padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--text-secondary); margin-top: 1rem; border: 1px solid var(--border);">
-                <i class="fas fa-info-circle text-primary me-1"></i> Skill gap = max(0, required - current). Focus on <b>DBMS</b> and <b>DSA</b> to reach 100% SDE readiness.
+              <div id="dashboard-skill-gaps">
+                <div class="skeleton skeleton-card mb-3"></div>
               </div>
             </div>
 

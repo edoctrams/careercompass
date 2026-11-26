@@ -1,12 +1,13 @@
 package com.careercompass.careercompass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "skills")
+@Table(name = "skills", indexes = @Index(name = "idx_skills_parent_node", columnList = "parent_skill_id, node_type"))
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,19 @@ public class Skill {
     @Column(name = "difficulty", nullable = true, length = 40)
     private String difficulty;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "parent_skill_id", nullable = true)
+    private Skill parentSkill;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "parentSkill", fetch = FetchType.LAZY)
+    private List<Skill> childSkills = new ArrayList<>();
+
+    @NotBlank
+    @Column(name = "node_type", nullable = false, length = 40)
+    private String nodeType = "TOPIC";
+
     public Skill() {}
 
     public Long getId() { return id; }
@@ -42,4 +56,12 @@ public class Skill {
     public String getDifficulty() { return difficulty; }
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
+    public Skill getParentSkill() { return parentSkill; }
+    public void setParentSkill(Skill parentSkill) { this.parentSkill = parentSkill; }
+
+    public List<Skill> getChildSkills() { return childSkills; }
+    public void setChildSkills(List<Skill> childSkills) { this.childSkills = childSkills; }
+
+    public String getNodeType() { return nodeType; }
+    public void setNodeType(String nodeType) { this.nodeType = nodeType; }
 }

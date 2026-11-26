@@ -5,9 +5,16 @@ import com.careercompass.careercompass.dto.RegisterRequest;
 import com.careercompass.careercompass.dto.AuthenticationResponse;
 import com.careercompass.careercompass.service.UserService;
 import com.careercompass.careercompass.entity.User;
+import com.careercompass.careercompass.repository.UserRepository;
+import com.careercompass.careercompass.security.UserDetailsImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,18 +24,28 @@ public class AuthenticationController {
     private UserService userService;
 
     @Autowired
-    private com.careercompass.careercompass.repository.UserRepository userRepository;
+    private UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
-        AuthenticationResponse response = userService.login(loginRequest);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            AuthenticationResponse response = userService.login(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid email or password."));
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
-        AuthenticationResponse response = userService.register(registerRequest);
-        return ResponseEntity.status(201).body(response);
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        try {
+            AuthenticationResponse response = userService.register(registerRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
     @PostMapping("/refresh")
@@ -40,12 +57,12 @@ public class AuthenticationController {
         }
         Object principal = authentication.getPrincipal();
         String email;
-        if (principal instanceof com.careercompass.careercompass.security.UserDetailsImpl) {
-            email = ((com.careercompass.careercompass.security.UserDetailsImpl) principal).getUsername();
+        if (principal instanceof UserDetailsImpl userDetails) {
+            email = userDetails.getUsername();
         } else {
             email = authentication.getName();
         }
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         String token = userService.generateToken(user);
         return ResponseEntity.ok(AuthenticationResponse.builder()
